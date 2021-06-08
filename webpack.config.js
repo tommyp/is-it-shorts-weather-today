@@ -9,9 +9,15 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist',
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Development"
+      hash: true,
+      title: "Development",
+      template: './src/index.html',
+      filename: 'index.html'
     })
   ],
   module: {
