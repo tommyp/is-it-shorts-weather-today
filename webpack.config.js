@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -6,6 +7,11 @@ module.exports = {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Output"
+    })
+  ],
   module: {
     rules: [
       {
@@ -13,5 +19,8 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ]
+  },
+  output: {
+    clean: true,
   }
 };
