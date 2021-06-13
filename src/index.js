@@ -1,15 +1,21 @@
 import _ from 'lodash';
 import './style.css';
+import objectToQuery from './utils/objectToQuery';
 
-function component() {
-  const element = document.createElement('div');
+const form = document.querySelector('form');
+const input = document.querySelector('input#search');
 
-  console.log('hello')
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const queryParams = objectToQuery({
+    location: input.value,
+  });
 
-  // Lodash, now imported by this script
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  const resp = await fetch(`/.netlify/functions/search?${queryParams}`, {
+    // method: 'POST',
+  });
+  const data = await resp.json();
+  console.log(data);
+};
 
-  return element;
-}
-
-document.body.appendChild(component());
+form.addEventListener('submit', handleSubmit);
