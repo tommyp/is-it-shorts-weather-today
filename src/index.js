@@ -1,10 +1,10 @@
-import _, { at, set } from 'lodash';
 import './style.css';
 import objectToQuery from './utils/objectToQuery';
 
 const form = document.querySelector('form');
 const input = document.querySelector('input#search');
 const geoButton = document.querySelector('#geo_search');
+let data;
 
 const updateQueryParams = (searchParams) => {
   window.history.pushState(null, null, `${window.location.pathname}?${searchParams}`);
@@ -16,7 +16,7 @@ const makeRequest = async (params) => {
   const resp = await fetch(`/.netlify/functions/search?${queryParams}`, {
     // method: 'POST',
   });
-  const data = await resp.json();
+  data = await resp.json();
   console.log(data);
 };
 
@@ -30,9 +30,10 @@ const locationQuery = (location) => {
   });
 };
 
-const setPosition = (position) => {
+const setPosition = async (position) => {
   const { latitude, longitude } = position.coords;
-  geoQuery(latitude, longitude);
+  await geoQuery(latitude, longitude);
+  input.value = data.name;
 };
 
 const handleGeo = (e) => {
