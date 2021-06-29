@@ -30,23 +30,23 @@ const warmTemp = (data) => {
 };
 
 const renderDecision = () => {
-  console.log(currentTemp);
   decisionEl.innerHTML = `
    <h2>${decision}</h2>
    <p>${condition} / ${currentTemp.toPrecision(2)}</p>
   `;
 };
 
-const setDecision = (data) => {
-  const forecast = data.main;
+const setDecision = () => {
   const code = data.weather[0].id;
-  const { tempMax, temp } = forecast;
+
   const warm = warmTemp(data);
 
   condition = data.weather[0].description;
 
-  if (code >= 800 && code < 804 && warmTemp) {
+  if (code >= 800 && code < 804 && warm) {
     decision = 'yes';
+  } else {
+    decision = 'no';
   }
 
   renderDecision();
@@ -59,7 +59,6 @@ const makeRequest = async (params) => {
     // method: 'POST',
   });
   data = await resp.json();
-  console.log(data);
   setDecision(data);
 };
 
