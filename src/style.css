@@ -34,7 +34,8 @@ main {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 4rem;
+  margin: 0 auto;
 }
 
 input {
@@ -52,6 +53,14 @@ button {
 form {
   display: flex;
   border: 4px solid #fff;
+  width: 100%;
+}
+
+#search {
+  padding-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 #geo_search {
@@ -68,23 +77,25 @@ form {
 
 #decision h2 {
   margin: 0 auto;
-  font-size: 4rem;
-  line-height: 4rem;
+  font-size: 8rem;
+  line-height: 12rem;
 }
 
 @media screen and (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
   main {
     padding: 0 1rem;
   }
 
-  #search {
-    padding-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
   input {
     flex-grow: 1 100%;
+  }
+
+  #descision h2 {
+    font-size: 4rem;
+    line-height: 4rem;
   }
 }
