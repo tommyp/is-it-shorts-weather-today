@@ -5,8 +5,16 @@ body,
 h1,
 h2,
 main,
-p {
+p,
+canvas {
   margin: 0;
+}
+
+canvas#background {
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 input,
