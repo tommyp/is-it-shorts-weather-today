@@ -1,6 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap");
+
+input,
+button {
+  appearance: none;
+  border: none;
+  background: none;
+  color: #fff;
+}
+
+html {
+  height: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Dela Gothic One", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   padding: 0;
   box-sizing: border-box;
   margin: 0 auto;
+  font-size: 16px;
+  color: #fff;
+  background: #cd3f1c;
+  height: 100%;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  font-family: "Dela Gothic One", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+button {
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  border: 4px solid #fff;
+}
+
+#geo_search {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  padding: 0 1.5rem 0.5rem;
+  text-align: center;
+}
+
+#submit {
+  padding: 0 1rem;
+  border-left: 4px solid #fff;
+}
+
+#decision h2 {
+  margin: 0 auto;
+  font-size: 4rem;
+  line-height: 4rem;
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    padding: 0 1rem;
+  }
+
+  #search {
+    padding-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  input {
+    flex-grow: 1 100%;
+  }
 }

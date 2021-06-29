@@ -10,7 +10,7 @@ const objectToQuery = (data) => Object.keys(data)
   .filter((fragment) => fragment !== null)
   .join('&');
 
-const url = 'https://api.openweathermap.org/data/2.5/weather?';
+const url = 'https://api.openweathermap.org/data/2.5/weather';
 
 const handler = async (event) => {
   const params = {};
@@ -34,7 +34,7 @@ const handler = async (event) => {
 
   const qs = objectToQuery(params);
 
-  const resp = await fetch(`${url}${qs}`);
+  const resp = await fetch(`${url}?${qs}`);
   const data = await resp.json();
 
   return {
