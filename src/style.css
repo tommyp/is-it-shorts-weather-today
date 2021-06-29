@@ -50,6 +50,12 @@ main {
   height: 100%;
 }
 
+#container {
+  z-index: 100;
+  position: absolute;
+  height: 100%;
+}
+
 h1 {
   font-size: 4rem;
   margin: 0 auto;
