@@ -1,5 +1,6 @@
 import objectToQuery from './utils/objectToQuery';
 
+const h1 = document.querySelector('h1');
 const form = document.querySelector('form');
 const input = document.querySelector('#search input');
 const geoButton = document.querySelector('#geo_search');
@@ -16,7 +17,9 @@ const updateQueryParams = (searchParams) => {
 
 const setTitle = (place) => {
   if (place) {
-    document.title = `is it shorts weather today in ${place}?`;
+    const heading = `is it shorts weather today in ${place.toLowerCase()}?`;
+    h1.innerHTML = heading;
+    document.title = heading;
   } else {
     document.title = 'is it shorts weather today?';
   }
