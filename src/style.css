@@ -143,8 +143,12 @@ a {
     flex-grow: 1 100%;
   }
 
-  #descision h2 {
+  h2 {
     font-size: 4rem;
+    line-height: 4rem;
+  }
+
+  h2.error {
     line-height: 4rem;
   }
 
