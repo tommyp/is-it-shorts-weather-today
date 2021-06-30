@@ -71,6 +71,10 @@ input {
   text-transform: lowercase;
 }
 
+input:focus {
+  outline: none;
+}
+
 button {
   font-size: 2rem;
 }
