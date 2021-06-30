@@ -4,17 +4,6 @@ precision highp float;
 #endif
 
 uniform float u_time;
-uniform vec2 resolution;
-uniform vec2 mouse;
-uniform vec3 spectrum;
-
-uniform sampler2D texture0;
-uniform sampler2D texture1;
-uniform sampler2D texture2;
-uniform sampler2D texture3;
-uniform sampler2D prevFrame;
-uniform sampler2D prevPass;
-
 varying vec2 v_texcoord;
 
 #define NUM_OCTAVES 5
@@ -63,7 +52,7 @@ void main(void)
 
     float grain = rand(uv);
 
-    float f = fbm(uv + (u_time*0.001));
+    float f = fbm(uv);
     f *= 20.0;
     f += grain;
     f += u_time * 0.2;

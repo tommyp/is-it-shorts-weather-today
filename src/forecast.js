@@ -14,6 +14,14 @@ const updateQueryParams = (searchParams) => {
   window.history.pushState(null, null, `${window.location.pathname}?${searchParams}`);
 };
 
+const setTitle = (place) => {
+  if (place) {
+    document.title = `is it shorts weather today in ${place}?`;
+  } else {
+    document.title = 'is it shorts weather today?';
+  }
+};
+
 const warmTemp = () => {
   const { temp_max: tempMax, temp } = data.main;
   currentTemp = temp;
@@ -66,6 +74,7 @@ const makeRequest = async (params) => {
 const geoQuery = async (lat, lon) => {
   await makeRequest({ lat, lon });
   input.value = data.name;
+  setTitle(data.name);
 };
 
 const locationQuery = (location) => {
@@ -91,6 +100,7 @@ const handleGeo = (e) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   locationQuery(input.value);
+  setTitle(input.value);
 };
 
 geoButton.addEventListener('click', handleGeo);
@@ -105,6 +115,7 @@ const hydrateFromParams = () => {
   if (location) {
     locationQuery(location);
     input.value = location;
+    setTitle(location);
   } else if (lat && lon) {
     geoQuery(lat, lon);
   }
