@@ -14,7 +14,7 @@ const updateQueryParams = (searchParams) => {
   window.history.pushState(null, null, `${window.location.pathname}?${searchParams}`);
 };
 
-const warmTemp = (data) => {
+const warmTemp = () => {
   const { temp_max: tempMax, temp } = data.main;
   currentTemp = temp;
 
@@ -26,6 +26,8 @@ const warmTemp = (data) => {
     currentTemp = temp;
     return true;
   }
+
+  return false;
 };
 
 const renderDecision = () => {
@@ -97,8 +99,6 @@ form.addEventListener('submit', handleSubmit);
 const hydrateFromParams = () => {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.search);
-  console.log('hydration');
-
   const location = params.get('location');
   const lat = params.get('lat');
   const lon = params.get('lon');
