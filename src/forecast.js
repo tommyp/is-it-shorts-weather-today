@@ -16,13 +16,14 @@ const updateQueryParams = (searchParams) => {
 };
 
 const setTitle = (place) => {
+  let heading;
   if (place) {
-    const heading = `is it shorts weather today in ${place.toLowerCase()}?`;
-    h1.innerHTML = heading;
-    document.title = heading;
+    heading = `is it shorts weather today in ${place.toLowerCase()}?`;
   } else {
-    document.title = 'is it shorts weather today?';
+    heading = 'is it shorts weather today?';
   }
+  h1.innerHTML = heading;
+  document.title = heading;
 };
 
 const warmTemp = () => {
