@@ -100,14 +100,18 @@ form {
   border-left: 4px solid #fff;
 }
 
-#decision h2 {
+h2 {
   margin: 0 auto;
   font-size: 8rem;
   line-height: 12rem;
 }
 
-#decision h2.error {
+h2.error {
   line-height: 8rem;
+}
+
+h2.loading {
+  opacity: 0.5;
 }
 
 footer {

@@ -38,6 +38,16 @@ const warmTemp = () => {
   return false;
 };
 
+const renderLoading = () => {
+  decisionEl.innerHTML = `
+   <h2 class="loading">loading</h2>
+  `;
+};
+
+const setLoading = () => {
+  renderLoading();
+};
+
 const renderDecision = () => {
   decisionEl.innerHTML = `
    <h2>${decision}</h2>
@@ -86,12 +96,14 @@ const makeRequest = async (params) => {
 };
 
 const geoQuery = async (lat, lon) => {
+  setLoading();
   await makeRequest({ lat, lon });
   input.value = data.name;
   setTitle(data.name);
 };
 
 const locationQuery = (location) => {
+  setLoading();
   makeRequest({
     location,
   });
