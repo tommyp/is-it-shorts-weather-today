@@ -61,14 +61,28 @@ const setDecision = () => {
   renderDecision();
 };
 
+const renderError = (message, reason) => {
+  decisionEl.innerHTML = `
+   <h2 class="error">${message}</h2>
+   <p>${reason}</p>
+  `;
+};
+
+const setError = () => {
+  renderError('who knows', "that's not a place");
+};
+
 const makeRequest = async (params) => {
   const queryParams = objectToQuery(params);
   updateQueryParams(queryParams);
-  const resp = await fetch(`/.netlify/functions/search?${queryParams}`, {
-    // method: 'POST',
-  });
+  const resp = await fetch(`/.netlify/functions/search?${queryParams}`);
   data = await resp.json();
-  setDecision(data);
+  console.log(data);
+  if (data.cod == 200) {
+    setDecision();
+  } else if (data.cod == 404) {
+    setError();
+  }
 };
 
 const geoQuery = async (lat, lon) => {

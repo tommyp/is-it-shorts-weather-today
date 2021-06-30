@@ -106,6 +106,10 @@ form {
   line-height: 12rem;
 }
 
+#decision h2.error {
+  line-height: 8rem;
+}
+
 footer {
   max-width: 600px;
   margin: 0 auto;
