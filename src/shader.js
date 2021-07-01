@@ -1,7 +1,6 @@
 const shader = `
-#ifdef GL_ES
 precision highp float;
-#endif
+
 
 uniform float u_time;
 varying vec2 v_texcoord;
