@@ -6,10 +6,8 @@ const input = document.querySelector('#search input');
 const geoButton = document.querySelector('#geo_search');
 const decisionEl = document.querySelector('#decision');
 let data;
-let decision = 'no';
 let currentTemp;
 let condition;
-const trigger = 18;
 
 const updateQueryParams = (searchParams) => {
   window.history.pushState(null, null, `${window.location.pathname}?${searchParams}`);
@@ -26,7 +24,7 @@ const setTitle = (place) => {
   document.title = heading;
 };
 
-const warmTemp = () => {
+const warmTemp = (trigger) => {
   const { temp_max: tempMax, temp } = data.main;
   currentTemp = temp;
 
@@ -52,27 +50,30 @@ const setLoading = () => {
   renderLoading();
 };
 
-const renderDecision = () => {
+const renderDecision = (decision) => {
   decisionEl.innerHTML = `
-   <h2>${decision}</h2>
+   <h2 class="${decision}">${decision}</h2>
    <p>${condition} / ${currentTemp.toPrecision(2)}</p>
   `;
 };
 
 const setDecision = () => {
   const code = data.weather[0].id;
-
-  const warm = warmTemp(data);
+  let decision;
 
   condition = data.weather[0].description;
 
-  if (code >= 800 && code < 804 && warm) {
+  if (code >= 800 && code < 804 && warmTemp(18)) {
+    decision = 'yes';
+  } else if (code === 804 && warmTemp(21)) {
+    decision = 'yes';
+  } else if (warmTemp(25)) {
     decision = 'yes';
   } else {
     decision = 'no';
   }
 
-  renderDecision();
+  renderDecision(decision);
 };
 
 const renderError = (message, reason) => {
