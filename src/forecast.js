@@ -130,8 +130,13 @@ const handleGeo = (e) => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  locationQuery(input.value);
-  setTitle(input.value);
+  if (input.value) {
+    locationQuery(input.value);
+    setTitle(input.value);
+  } else {
+    decisionEl.innerHTML = '';
+    setTitle();
+  }
 };
 
 geoButton.addEventListener('click', handleGeo);
