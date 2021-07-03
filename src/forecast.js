@@ -53,7 +53,7 @@ const setLoading = () => {
 const renderDecision = (decision) => {
   decisionEl.innerHTML = `
    <h2 class="${decision}">${decision}</h2>
-   <p>${condition} / ${currentTemp.toPrecision(2)}</p>
+   <p>${condition} / ${currentTemp.toPrecision(2)}°c</p>
   `;
 };
 
