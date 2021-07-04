@@ -23,3 +23,4 @@ calcSize();
 window.addEventListener('resize', calcSize);
 
 sandbox.load(shader);
+sandbox.setUniform('seed', Math.random());

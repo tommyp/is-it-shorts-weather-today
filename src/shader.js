@@ -5,6 +5,7 @@ precision highp float;
 
 
 uniform float u_time;
+uniform float seed;
 varying vec2 v_texcoord;
 
 ${includes}
@@ -22,7 +23,7 @@ void main(void)
 
     vec2 movement = vec2(u_time * 0.01, u_time * -0.01);
     movement *= rotation2d(u_time * 0.005);
-    float f = fbm(uv + movement);
+    float f = fbm(uv + movement + seed);
     f *= 20.0;
     f += grain;
     f += u_time * 0.2;
