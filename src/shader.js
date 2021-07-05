@@ -2,14 +2,11 @@ import includes from './glsl/includes';
 
 const shader = `
 precision highp float;
-
-
 uniform float u_time;
 uniform float seed;
 varying vec2 v_texcoord;
 
 ${includes}
-
 
 void main(void)
 {
