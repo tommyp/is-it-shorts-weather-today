@@ -29,7 +29,7 @@ void main(void)
     f += u_time * 0.2;
     f = fract(f);
 
-    float mixer = smoothstep(0.0, 0.1, f) - smoothstep(0.1, 0.3, f) - smoothstep(0.5, 0.6, f)- smoothstep(0.7, 0.9, f);
+    float mixer = smoothstep(0.0, 0.1, f) - smoothstep(0.1, 0.3, f) - smoothstep(0.5, 0.6, f) - smoothstep(0.7, 0.9, f);
 
     vec4 mixed = mix(color1, color3, mixer);
     vec4 color = mix(mixed, color2, mixer);

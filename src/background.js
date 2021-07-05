@@ -10,8 +10,6 @@ const calcSize = () => {
   const wh = window.innerHeight;
   const dpi = window.devicePixelRatio;
 
-  const s = Math.max(ww, wh);
-
   canvas.width = ww * dpi;
   canvas.height = wh * dpi;
   canvas.style.width = `${ww}px`;
