@@ -92,10 +92,9 @@ const makeRequest = async (params) => {
   updateQueryParams(queryParams);
   const resp = await fetch(`/.netlify/functions/search?${queryParams}`);
   data = await resp.json();
-  console.log(data);
-  if (data.cod == 200) {
+  if (data.cod === 200) {
     setDecision();
-  } else if (data.cod == 404) {
+  } else if (data.cod === 404) {
     setError();
   }
 };
@@ -124,7 +123,7 @@ const handleGeo = (e) => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(setPosition);
   } else {
-    console.log('no geo');
+    renderError('sorry', "you don't have geolocation");
   }
 };
 
