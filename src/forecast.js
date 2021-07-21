@@ -94,7 +94,7 @@ const makeRequest = async (params) => {
   data = await resp.json();
   if (data.cod === 200) {
     setDecision();
-  } else if (data.cod === 404) {
+  } else if (data.cod === '404') {
     setError();
   }
 };
