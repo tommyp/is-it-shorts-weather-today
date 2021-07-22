@@ -68,7 +68,7 @@ const setDecision = () => {
   if (code >= 800 && code < 804 && warmTemp(18)) {
     // nice weather
     decision = 'yes';
-  } else if ([721, 731, 751, 761, 762].includes(code) && warmTemp(20)) {
+  } else if ([711, 721, 731, 751, 761, 762].includes(code) && warmTemp(20)) {
     // haze and other weather
     decision = 'yes';
   } else if (code === 804 && warmTemp(21)) {
