@@ -3,7 +3,7 @@
 ## TODO
 
 - ~Get current location~
-- Query OpenWeather
+- ~Query OpenWeather~
 - Render the response
 - Hydrate from params
 - Tests
