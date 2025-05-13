@@ -1,6 +1,4 @@
-☀️😎
-
-# Is It Shorts Weather Today?
+# ☀️😎 Is It Shorts Weather Today?
 
 ## TODO
 
