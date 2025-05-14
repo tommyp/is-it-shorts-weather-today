@@ -21,6 +21,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const resp = await fetch(`${url}?${params}`);
 
+		console.log(resp);
+
 		if (!resp.ok) {
 			throw new Error('Failed to fetch weather data');
 		}

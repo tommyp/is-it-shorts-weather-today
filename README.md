@@ -19,3 +19,7 @@
 pnpm install
 pnpm run dev
 ```
+
+## Inspo
+
+Kodak logo poster vibes? https://uk.pinterest.com/pin/7177680651626052/
