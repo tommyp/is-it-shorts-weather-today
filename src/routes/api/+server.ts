@@ -1,36 +1,56 @@
 import { OPENWEATHER_API_KEY } from '$env/static/private';
 import type { RequestHandler } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
+
+interface WeatherRequest {
+	units?: 'metric' | 'imperial' | 'standard';
+	location?: string;
+	lat?: number;
+	lon?: number;
+}
 
 export const POST: RequestHandler = async ({ request }) => {
-	const url = 'https://api.openweathermap.org/data/2.5/weather';
-
-	const { units, location, lat, lon } = await request.json();
-
-	const params = new URLSearchParams({
-		units: units || 'metric',
-		appid: OPENWEATHER_API_KEY
-	});
-
-	if (location) {
-		params.set('q', location.replace('%20', ' '));
-	} else if (lat && lon) {
-		params.set('lat', lat);
-		params.set('lon', lon);
-	}
+	const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 	try {
-		const resp = await fetch(`${url}?${params}`);
+		const body = (await request.json()) as WeatherRequest;
 
-		console.log(resp);
-
-		if (!resp.ok) {
-			throw new Error('Failed to fetch weather data');
+		// Validate required parameters
+		if (!body.location && (!body.lat || !body.lon)) {
+			throw error(400, 'Either location or both lat/lon coordinates are required');
 		}
 
-		const data = await resp.json();
-		return new Response(JSON.stringify(data));
-	} catch (error) {
-		console.error('Error fetching weather data:', error);
-		return new Response(JSON.stringify({ error: 'Failed to fetch weather data' }), { status: 500 });
+		// Validate units
+		const validUnits = ['metric', 'imperial', 'standard'];
+		const units = body.units && validUnits.includes(body.units) ? body.units : 'metric';
+
+		const params = new URLSearchParams({
+			units,
+			appid: OPENWEATHER_API_KEY
+		});
+
+		// Set location parameters
+		if (body.location) {
+			params.set('q', body.location.trim().replace(/\s+/g, ' '));
+		} else {
+			params.set('lat', body.lat!.toString());
+			params.set('lon', body.lon!.toString());
+		}
+
+		const response = await fetch(`${WEATHER_API_URL}?${params}`);
+
+		if (!response.ok) {
+			const errorData = await response.json().catch(() => null);
+			throw error(response.status, errorData?.message || 'Failed to fetch weather data');
+		}
+
+		const data = await response.json();
+		return json(data);
+	} catch (err) {
+		if (err instanceof Response) {
+			throw err;
+		}
+		console.error('Weather API error:', err);
+		throw error(500, 'Internal server error');
 	}
 };
