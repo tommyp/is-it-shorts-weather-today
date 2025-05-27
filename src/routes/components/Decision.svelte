@@ -1,5 +1,5 @@
 <script lang="ts">
-	const { forecast } = $props();
+	const { forecast, error } = $props();
 	let decision: undefined | 'yes' | 'no' = $state();
 	let currentTemp;
 	let condition;
