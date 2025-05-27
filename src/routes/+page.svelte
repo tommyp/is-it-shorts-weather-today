@@ -1,13 +1,16 @@
 <script lang="ts">
 	import Button from './components/Button.svelte';
 	import Decision from './components/Decision.svelte';
+	import Header from './components/Header.svelte';
 	let params: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weather: any = $state();
 	let isLoading = $state(false);
 	let decision = $state();
 	let error = $state();
+	let location = $state();
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
+		setWindowParams(params);
 		isLoading = true;
 		return await fetch('/api', {
 			method: 'POST',
@@ -24,6 +27,7 @@
 				.then((res) => res.json())
 				.then((data) => {
 					console.log(data);
+					location = data.name;
 					weather = data;
 				})
 				.catch((error) => {
@@ -49,6 +53,17 @@
 		const formData = new FormData(e.target as HTMLFormElement);
 		const location = formData.get('location') as string;
 		params = { location };
+	};
+
+	const setWindowParams = (params: { lat?: number; lon?: number; location?: string }) => {
+		const url = new URL(window.location.href);
+		if (params.lat && params.lon) {
+			url.searchParams.set('lat', params.lat?.toString() || '');
+			url.searchParams.set('lon', params.lon?.toString() || '');
+		} else if (params.location) {
+			url.searchParams.set('location', params.location || '');
+		}
+		window.history.pushState(null, '', url.toString());
 	};
 
 	const hydrateFromParams = () => {
@@ -79,46 +94,115 @@
 
 <main>
 	<div>
-		<h1>Is It Shorts Weather Today</h1>
+		<Header />
 		{#if weather}
 			<Decision forecast={weather} />
 		{/if}
 	</div>
-	<form onsubmit={handleSubmit}>
-		<input type="text" name="query" />
-		<button type="submit">Search</button>
-		<Button onclick={findMe}>
+	<div class="controls">
+		<Button onclick={() => {}} ariaLabel="Setting">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
 				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
+				fill="currentColor"
 				class="size-6"
 			>
 				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-				/>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+					fill-rule="evenodd"
+					d="M11.828 2.25c-.916 0-1.699.663-1.85 1.567l-.091.549a.798.798 0 0 1-.517.608 7.45 7.45 0 0 0-.478.198.798.798 0 0 1-.796-.064l-.453-.324a1.875 1.875 0 0 0-2.416.2l-.243.243a1.875 1.875 0 0 0-.2 2.416l.324.453a.798.798 0 0 1 .064.796 7.448 7.448 0 0 0-.198.478.798.798 0 0 1-.608.517l-.55.092a1.875 1.875 0 0 0-1.566 1.849v.344c0 .916.663 1.699 1.567 1.85l.549.091c.281.047.508.25.608.517.06.162.127.321.198.478a.798.798 0 0 1-.064.796l-.324.453a1.875 1.875 0 0 0 .2 2.416l.243.243c.648.648 1.67.733 2.416.2l.453-.324a.798.798 0 0 1 .796-.064c.157.071.316.137.478.198.267.1.47.327.517.608l.092.55c.15.903.932 1.566 1.849 1.566h.344c.916 0 1.699-.663 1.85-1.567l.091-.549a.798.798 0 0 1 .517-.608 7.52 7.52 0 0 0 .478-.198.798.798 0 0 1 .796.064l.453.324a1.875 1.875 0 0 0 2.416-.2l.243-.243c.648-.648.733-1.67.2-2.416l-.324-.453a.798.798 0 0 1-.064-.796c.071-.157.137-.316.198-.478.1-.267.327-.47.608-.517l.55-.091a1.875 1.875 0 0 0 1.566-1.85v-.344c0-.916-.663-1.699-1.567-1.85l-.549-.091a.798.798 0 0 1-.608-.517 7.507 7.507 0 0 0-.198-.478.798.798 0 0 1 .064-.796l.324-.453a1.875 1.875 0 0 0-.2-2.416l-.243-.243a1.875 1.875 0 0 0-2.416-.2l-.453.324a.798.798 0 0 1-.796.064 7.462 7.462 0 0 0-.478-.198.798.798 0 0 1-.517-.608l-.091-.55a1.875 1.875 0 0 0-1.85-1.566h-.344ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
+					clip-rule="evenodd"
 				/>
 			</svg>
-
-			<span>Find Me</span>
 		</Button>
-	</form>
+
+		<form onsubmit={handleSubmit}>
+			<input type="text" name="location" autocomplete="off" bind:value={location} />
+
+			<Button onclick={findMe} ariaLabel="Find Me">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="currentColor"
+					class="size-6"
+				>
+					<path
+						fill-rule="evenodd"
+						d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</Button>
+
+			<Button type="submit">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="currentColor"
+					class="size-6"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</Button>
+		</form>
+	</div>
 </main>
 
 <style>
-	h1 {
-		font-family: 'Orbitron';
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		height: 100vh;
 	}
+
+	.controls {
+		display: flex;
+		gap: 0.25rem;
+		padding: 0 0.5rem;
+		margin: 0 auto 2rem;
+	}
+
 	form {
 		display: flex;
 		gap: 0.25rem;
+		border: 0.25rem solid var(--white);
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+	}
+
+	input {
+		flex: 1;
+		border: none;
+		font-size: 1.5rem;
+		background: none;
+		padding: 0.1rem;
+		color: var(--white);
+		font-family: var(--font-primary);
+		width: 100%;
+	}
+
+	form:has(input:focus) {
+		outline: none;
+		border-color: var(--orange);
+	}
+
+	input:focus {
+		outline: none;
+	}
+
+	@media (min-width: 576px) {
+		.controls {
+			padding: 0 2rem;
+		}
+
+		input {
+			font-size: 2rem;
+			width: auto;
+		}
 	}
 </style>

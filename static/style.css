@@ -30,8 +30,31 @@
 	font-display: swap;
 }
 
-body {
+@font-face {
+	font-family: 'Neue Black';
+	src: url('/fonts/NeueBlack/TheNeue-Black.woff2') format('woff2');
+	font-style: normal;
+	font-display: swap;
+}
+
+* {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+body {
+	--white: rgb(255, 255, 255);
+	--yellow: rgb(245, 207, 119);
+	--orange: rgb(250, 182, 23);
+	--red: rgb(227, 6, 19);
+	--font-primary: 'Neue Black', system-ui, -apple-system, sans-serif;
+
+	background: var(--red);
+	font-family: var(--font-primary);
+	font-weight: 300;
+}
+
+html {
+	font-size: 1rem;
 }
