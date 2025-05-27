@@ -96,7 +96,7 @@
 
 <main>
 	<div>
-		<Header />
+		<Header {location} />
 		{#if weather || error}
 			<Decision forecast={weather} {error} />
 		{/if}
@@ -163,13 +163,16 @@
 		align-items: center;
 		justify-content: space-between;
 		height: 100vh;
+		max-width: 1024px;
+		margin: 0 auto;
 	}
 
 	.controls {
 		display: flex;
 		gap: 0.25rem;
 		padding: 0 0.5rem;
-		margin: 0 auto 2rem;
+		margin: 0 auto 1rem;
+		width: 100%;
 	}
 
 	form {

@@ -1,5 +1,13 @@
+<script lang="ts">
+	const { location } = $props();
+</script>
+
 <header>
-	<h1>Is It Shorts Weather Today?</h1>
+	{#if location}
+		<h1>Is It Shorts Weather Today In {location}?</h1>
+	{:else}
+		<h1>Is It Shorts Weather Today?</h1>
+	{/if}
 </header>
 
 <style>
@@ -12,7 +20,7 @@
 	}
 
 	h1 {
-		font-size: 3rem;
+		font-size: 4rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		text-align: center;
@@ -21,7 +29,7 @@
 
 	@media (min-width: 576px) {
 		h1 {
-			font-size: 2.5rem;
+			font-size: 7rem;
 		}
 	}
 </style>

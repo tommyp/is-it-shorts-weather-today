@@ -37,6 +37,70 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-ExtraLight.woff2') format('woff2');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-Light.woff2') format('woff2');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-SemiBold.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-Bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-ExtraBold.woff2') format('woff2');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Spartan';
+	src: url('/fonts/Spartan/LeagueSpartan-Black.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -48,7 +112,7 @@ body {
 	--yellow: rgb(245, 207, 119);
 	--orange: rgb(250, 182, 23);
 	--red: rgb(227, 6, 19);
-	--font-primary: 'Neue Black', system-ui, -apple-system, sans-serif;
+	--font-primary: 'Spartan', system-ui, -apple-system, sans-serif;
 
 	background: var(--red);
 	font-family: var(--font-primary);

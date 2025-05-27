@@ -6,13 +6,20 @@
 
 <style>
 	footer {
-		font-size: 0.75rem;
-		padding-bottom: 0.5rem;
+		font-size: 1rem;
+		padding: 0 0.5rem 0.5rem;
 	}
 
 	a {
 		color: var(--white);
 		font-family: var(--font-primary);
 		text-decoration: none;
+	}
+
+	@media (min-width: 576px) {
+		footer {
+			font-size: 1rem;
+			padding: 0 0 0.5rem;
+		}
 	}
 </style>
