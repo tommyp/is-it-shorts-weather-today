@@ -1,8 +1,13 @@
 <script lang="ts">
-	const { forecast, error } = $props();
+	const { forecast, error, settings } = $props();
 	let decision: undefined | 'yes' | 'no' = $state();
 	let currentTemp;
-	let condition;
+	let condition = $state();
+
+	const conditions = {
+		clear: 800,
+		clouds: [801, 802, 803]
+	};
 
 	const warmTemp = (trigger: number) => {
 		const { temp_max: tempMax, temp } = forecast.main;
@@ -24,7 +29,7 @@
 	const code = forecast.weather[0].id;
 
 	// codes come from https://openweathermap.org/weather-conditions
-	if (code >= 800 && code < 804 && warmTemp(18)) {
+	if ((code == conditions.clear || conditions.clouds.includes(code)) && warmTemp(18)) {
 		// nice weather
 		decision = 'yes';
 	} else if ([711, 721, 731, 751, 761, 762].includes(code) && warmTemp(20)) {

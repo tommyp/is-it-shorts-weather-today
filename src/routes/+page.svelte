@@ -4,11 +4,27 @@
 	import Decision from './components/Decision.svelte';
 	import Header from './components/Header.svelte';
 	import Footer from './components/Footer.svelte';
+	import SettingsModal from './components/SettingsModal.svelte';
+
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weather: any = $state();
 	let isLoading = $state(false);
 	let error = $state();
 	let location = $state();
+	let showSettingsModal = $state(false);
+
+	let settings = $state({
+		unit: 'celsius',
+		trigger: 18
+	});
+
+	onMount(() => {
+		const savedSettings = localStorage.getItem('weatherSettings');
+		if (savedSettings) {
+			settings = JSON.parse(savedSettings);
+		}
+		console.log(settings);
+	});
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
 		setWindowParams(params);
@@ -94,16 +110,20 @@
 	<p>Temperature: {weather.main?.temp}°C</p>
 {/if} -->
 
+{#if showSettingsModal}
+	<SettingsModal closeModal={() => (showSettingsModal = false)} />
+{/if}
+
 <main>
 	<div>
 		<Header {location} />
 		{#if weather || error}
-			<Decision forecast={weather} {error} />
+			<Decision forecast={weather} {error} {settings} />
 		{/if}
 	</div>
 	<div>
 		<div class="controls">
-			<Button onclick={() => {}} ariaLabel="Setting">
+			<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"

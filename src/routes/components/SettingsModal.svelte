@@ -1,16 +1,21 @@
 <script lang="ts">
-	let isOpen = $state(false);
+	import SettingsForm from './SettingsForm.svelte';
 
-	function closeModal() {
-		isOpen = false;
-	}
+	type Props = {
+		closeModal: () => void;
+	};
 
-	export function openModal() {
-		isOpen = true;
-	}
+	const { closeModal }: Props = $props();
 </script>
 
-<div class="modal-backdrop" class:visible={isOpen} onclick={closeModal} aria-hidden={!isOpen}>
+<div
+	class="modal-backdrop"
+	onclick={closeModal}
+	role="dialog"
+	aria-modal="true"
+	tabindex="-1"
+	onkeydown={(e) => e.key === 'Escape' && closeModal()}
+>
 	<div class="modal">
 		<div class="modal-header">
 			<h2>Settings</h2>
@@ -30,7 +35,7 @@
 			</button>
 		</div>
 		<div class="modal-content">
-			<slot />
+			<SettingsForm />
 		</div>
 	</div>
 </div>
@@ -40,21 +45,18 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		display: none;
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		background-color: rgba(0, 0, 0, 0.5);
 		z-index: 1000;
 	}
 
-	.modal-backdrop.visible {
-		display: flex;
-	}
-
 	.modal {
-		background-color: var(--black);
+		background-color: var(--red);
 		border: 0.25rem solid var(--white);
 		border-radius: 0.5rem;
 		padding: 1.5rem;
