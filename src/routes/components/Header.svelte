@@ -16,7 +16,7 @@
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 1rem;
-		color: var(--orange);
+		color: var(--white);
 	}
 
 	h1 {

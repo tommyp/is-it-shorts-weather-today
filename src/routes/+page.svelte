@@ -5,6 +5,7 @@
 	import Header from './components/Header.svelte';
 	import Footer from './components/Footer.svelte';
 	import SettingsModal from './components/SettingsModal.svelte';
+	import Background from './components/Background.svelte';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weather: any = $state();
@@ -113,7 +114,7 @@
 {#if showSettingsModal}
 	<SettingsModal closeModal={() => (showSettingsModal = false)} />
 {/if}
-
+<Background />
 <main>
 	<div>
 		<Header {location} />
