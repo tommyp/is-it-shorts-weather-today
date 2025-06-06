@@ -1,8 +1,32 @@
-<script lang="ts" module>
+<script lang="ts">
+	import { onMount } from 'svelte';
 	import { Tween } from 'svelte/motion';
+
+	const duration = 500;
+
+	const tweenX = new Tween(Math.random() * 100, { duration });
+	const tweenY = new Tween(Math.random() * 100, { duration });
+
+	onMount(() => {
+		tweenX.target = Math.random() * 100;
+		tweenY.target = Math.random() * 100;
+
+		setInterval(() => {
+			const targets = {
+				x: Math.random() * 100,
+				y: Math.random() * 100
+			};
+			console.log(targets);
+			tweenX.target = targets.x;
+			tweenY.target = targets.y;
+		}, duration);
+	});
 </script>
 
-<div class="background"></div>
+<div
+	class="background"
+	style={`--position-x: ${tweenX.current}%; --position-y: ${tweenY.current}%`}
+></div>
 
 <style>
 	:root {
@@ -10,6 +34,8 @@
 		--color-2: #ffa64d; /* Orange */
 		--color-3: #ffd700; /* Gold */
 		--color-4: #ff8c00; /* Dark orange */
+		--color-5: #e4a328; /* Yellow */
+		--color-6: #ffb300; /* Green */
 	}
 
 	.background {
@@ -20,7 +46,6 @@
 		height: 100%;
 		z-index: -1;
 		overflow: hidden;
-		animation: moveGradient 20s ease-in-out infinite;
 
 		background-image:
 			radial-gradient(at 52% 0%, var(--color-1) 0px, transparent 50%),
@@ -37,29 +62,11 @@
 				at calc(100% - var(--position-x)) calc(100% - var(--position-y)),
 				var(--color-3) 0px,
 				transparent 50%
+			),
+			radial-gradient(
+				at calc(100% - var(--position-x)) calc(100% - var(--position-y)),
+				var(--color-6) 0px,
+				transparent 50%
 			);
-	}
-
-	@keyframes moveGradient {
-		0% {
-			--position-x: 25%;
-			--position-y: -25%;
-		}
-		25% {
-			--position-x: 75%;
-			--position-y: 25%;
-		}
-		50% {
-			--position-x: 25%;
-			--position-y: 75%;
-		}
-		75% {
-			--position-x: 75%;
-			--position-y: 25%;
-		}
-		100% {
-			--position-x: 25%;
-			--position-y: -25%;
-		}
 	}
 </style>
