@@ -5,13 +5,13 @@
 - ~Get current location~
 - ~Query OpenWeather~
 - Render the response
-- Hydrate from params
+- ~Hydrate from params~
 - Tests
-- New shader background
+- ~New shader background~
 - OG image
 - Update title
 - America mode 🇺🇸
-- Personal trigger settings
+- ~Settings~
 
 ## Running 'tingz
 

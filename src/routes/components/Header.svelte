@@ -20,7 +20,7 @@
 	}
 
 	h1 {
-		font-size: 4rem;
+		font-size: 2.5rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		text-align: center;

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Tween } from 'svelte/motion';
 
-	const duration = 500;
+	const duration = 5000;
 
 	const tweenX = new Tween(Math.random() * 100, { duration });
 	const tweenY = new Tween(Math.random() * 100, { duration });
@@ -16,7 +16,7 @@
 				x: Math.random() * 100,
 				y: Math.random() * 100
 			};
-			console.log(targets);
+			// console.log(targets);
 			tweenX.target = targets.x;
 			tweenY.target = targets.y;
 		}, duration);

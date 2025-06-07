@@ -6,6 +6,7 @@
 	import Footer from './components/Footer.svelte';
 	import SettingsModal from './components/SettingsModal.svelte';
 	import Background from './components/Background.svelte';
+	import { pushState } from '$app/navigation';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weather: any = $state();
@@ -24,11 +25,9 @@
 		if (savedSettings) {
 			settings = JSON.parse(savedSettings);
 		}
-		console.log(settings);
 	});
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
-		setWindowParams(params);
 		isLoading = true;
 		return await fetch('/api', {
 			method: 'POST',
@@ -61,6 +60,7 @@
 				const lat = position.coords.latitude;
 				const lon = position.coords.longitude;
 				requestParams = { lat, lon };
+				setWindowParams(requestParams);
 			});
 		} else {
 			console.error('Geolocation is not supported by this browser.');
@@ -72,17 +72,19 @@
 		const formData = new FormData(e.target as HTMLFormElement);
 		const location = formData.get('location') as string;
 		requestParams = { location };
+		setWindowParams(requestParams);
 	};
 
 	const setWindowParams = (params: { lat?: number; lon?: number; location?: string }) => {
-		const url = new URL(window.location.href);
+		const qp: { lat?: string; lon?: string; location?: string } = {};
 		if (params.lat && params.lon) {
-			url.searchParams.set('lat', params.lat?.toString() || '');
-			url.searchParams.set('lon', params.lon?.toString() || '');
+			qp.lat = params.lat?.toString() || '';
+			qp.lon = params.lon?.toString() || '';
 		} else if (params.location) {
-			url.searchParams.set('location', params.location || '');
+			qp.location = params.location || '';
 		}
-		window.history.pushState(null, '', url.toString());
+
+		history.pushState(null, '', `?${new URLSearchParams(qp).toString()}`);
 	};
 
 	const hydrateFromParams = () => {
@@ -117,7 +119,7 @@
 <Background />
 <main>
 	<div>
-		<Header {location} />
+		<Header location={weather?.name} />
 		{#if weather || error}
 			<Decision forecast={weather} {error} {settings} />
 		{/if}
