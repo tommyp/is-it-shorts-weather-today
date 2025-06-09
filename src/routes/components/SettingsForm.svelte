@@ -1,17 +1,10 @@
 <script lang="ts">
-	import { fahrenheitToCelsius } from '$lib/utils';
+	import { celsiusToFahrenheit, fahrenheitToCelsius } from '$lib/utils';
 
 	const { onSubmit } = $props();
 
 	let unit = $state('celsius');
 	let trigger = $state(18);
-	const setTrigger = (value: number) => {
-		if (unit === 'celsius') {
-			trigger = value;
-		} else {
-			trigger = fahrenheitToCelsius(value);
-		}
-	};
 
 	// Load saved settings on component mount
 	$effect(() => {
@@ -19,7 +12,7 @@
 		if (savedSettings) {
 			const { unit: savedUnit, trigger: savedTrigger } = JSON.parse(savedSettings);
 			unit = savedUnit;
-			trigger = savedTrigger;
+			trigger = savedUnit === 'celsius' ? savedTrigger : celsiusToFahrenheit(savedTrigger);
 		}
 	});
 
@@ -27,7 +20,7 @@
 		e.preventDefault();
 		const settings = {
 			unit,
-			trigger
+			trigger: unit === 'celsius' ? trigger : fahrenheitToCelsius(trigger)
 		};
 		localStorage.setItem('weatherSettings', JSON.stringify(settings));
 		onSubmit();
@@ -130,6 +123,10 @@
 
 	input[type='radio'] {
 		display: none;
+	}
+
+	label:has(input[type='radio']) {
+		cursor: pointer;
 	}
 
 	label:has(input[type='radio']:checked) {

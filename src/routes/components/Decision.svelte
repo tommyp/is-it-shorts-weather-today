@@ -1,9 +1,16 @@
 <script lang="ts">
+	import { celsiusToFahrenheit } from '$lib/utils';
 	import { isItShortsWeatherToday } from '$lib/weather';
 	const { forecast, settings, error } = $props();
 	let decision: undefined | 'yes' | 'no' = $state();
 	let condition = $derived(forecast.weather[0].main);
-	let temp = $derived(Math.round(forecast.main.temp));
+	let temp = $derived(() => {
+		if (settings.unit === 'celsius') {
+			return Math.round(forecast.main.temp);
+		} else {
+			return celsiusToFahrenheit(forecast.main.temp);
+		}
+	});
 
 	$effect(() => {
 		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
@@ -22,7 +29,7 @@
 	<div>
 		<h1>{decision}</h1>
 
-		<p>{temp}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
+		<p>{temp()}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
 		<p>{condition}</p>
 	</div>
 {/if}
