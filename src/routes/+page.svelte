@@ -105,14 +105,6 @@
 	});
 </script>
 
-<!-- {#if location}
-	<p>Location: {location.lat}, {location.lon}</p>
-{/if}
-
-{#if weather}
-	<p>Temperature: {weather.main?.temp}°C</p>
-{/if} -->
-
 {#if showSettingsModal}
 	<SettingsModal closeModal={() => (showSettingsModal = false)} />
 {/if}
@@ -120,10 +112,10 @@
 <main>
 	<div>
 		<Header location={weather?.name} />
-		{#if weather || error}
-			<Decision forecast={weather} {error} {settings} />
-		{/if}
 	</div>
+	{#if weather || error}
+		<Decision forecast={weather} {error} {settings} />
+	{/if}
 	<div>
 		<div class="controls">
 			<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting">

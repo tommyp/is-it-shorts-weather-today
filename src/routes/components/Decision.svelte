@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { isItShortsWeatherToday, isWarmEnough } from '$lib/weather';
 	const { forecast, error, settings } = $props();
 	let decision: undefined | 'yes' | 'no' = $state();
-	let currentTemp;
-	let condition = $derived(forecast.weather[0].description);
+	let condition = $derived(forecast.weather[0].main);
 	let code = $derived(forecast.weather[0].id);
 
 	const conditions = {
@@ -10,35 +10,10 @@
 		clouds: [801, 802, 803]
 	};
 
-	const warmTemp = (trigger: number) => {
-		const { temp_max: tempMax, temp } = forecast.main;
-		currentTemp = temp;
-
-		if (tempMax >= trigger) {
-			currentTemp = tempMax;
-			return true;
-		}
-		if (temp >= trigger) {
-			currentTemp = temp;
-			return true;
-		}
-
-		return false;
-	};
-
 	$effect(() => {
-		// codes come from https://openweathermap.org/weather-conditions
-		if ((code == conditions.clear || conditions.clouds.includes(code)) && warmTemp(18)) {
-			// nice weather
-			decision = 'yes';
-		} else if ([711, 721, 731, 751, 761, 762].includes(code) && warmTemp(20)) {
-			// haze and other weather
-			decision = 'yes';
-		} else if (code === 804 && warmTemp(21)) {
-			// very nice weather
-			decision = 'yes';
-		} else if (warmTemp(25)) {
-			// very hot weather
+		const { temp_max: tempMax, temp } = forecast.main;
+
+		if (isItShortsWeatherToday(forecast, 18)) {
 			decision = 'yes';
 		} else {
 			decision = 'no';

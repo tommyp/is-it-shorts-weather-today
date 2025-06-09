@@ -12,6 +12,7 @@
 - Update title
 - America mode 🇺🇸
 - ~Settings~
+- ~404 response~
 
 ## Running 'tingz
 
