@@ -5,7 +5,7 @@
 	let condition = $derived(forecast.weather[0].main);
 
 	$effect(() => {
-		if (isItShortsWeatherToday(forecast, 18)) {
+		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
 			decision = 'yes';
 		} else {
 			decision = 'no';

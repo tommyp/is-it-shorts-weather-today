@@ -4,7 +4,7 @@
 	const { onSubmit } = $props();
 
 	let unit = $state('celsius');
-	let trigger = $state(20);
+	let trigger = $state(18);
 	const setTrigger = (value: number) => {
 		if (unit === 'celsius') {
 			trigger = value;
@@ -147,7 +147,7 @@
 		outline: none;
 		border: none;
 		padding: 0.75rem 0 0.5rem 0.5rem;
-		width: 3.5rem;
+		width: 4.5rem;
 	}
 
 	input[type='number']:focus {

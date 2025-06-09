@@ -29,28 +29,28 @@
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
 		isLoading = true;
-		return await fetch('/api', {
+		const response = await fetch('/api', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(params)
 		});
+
+		if (!response.ok) {
+			throw new Error('Failed to fetch weather');
+		}
+
+		return response.json();
 	};
 
 	$effect(() => {
 		if (requestParams) {
-			makeRequest(requestParams)
-				.then((res) => res.json())
-				.then((data) => {
-					console.log(data);
-					location = data.name;
-					weather = data;
-				})
-				.catch((error) => {
-					console.error('Error fetching weather:', error);
-					error = error;
-				});
+			makeRequest(requestParams).then((data) => {
+				console.log(data);
+				location = data.name;
+				weather = data;
+			});
 		}
 	});
 
