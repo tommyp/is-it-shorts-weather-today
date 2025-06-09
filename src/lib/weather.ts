@@ -55,4 +55,4 @@ const isItShortsWeatherToday = (forecast: Forecast, trigger: number) => {
 	return false;
 };
 
-export { isWarmEnough, isItShortsWeatherToday };
+export { isItShortsWeatherToday };
