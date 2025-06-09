@@ -3,6 +3,7 @@
 	const { forecast, settings, error } = $props();
 	let decision: undefined | 'yes' | 'no' = $state();
 	let condition = $derived(forecast.weather[0].main);
+	let temp = $derived(Math.round(forecast.main.temp));
 
 	$effect(() => {
 		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
@@ -21,7 +22,7 @@
 	<div>
 		<h1>{decision}</h1>
 
-		<p>{forecast.main.temp}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
+		<p>{temp}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
 		<p>{condition}</p>
 	</div>
 {/if}

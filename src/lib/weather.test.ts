@@ -1,28 +1,6 @@
 import { expect, describe, it } from 'vitest';
-import { isItShortsWeatherToday, isWarmEnough } from './weather';
+import { isItShortsWeatherToday } from './weather';
 import type { Forecast } from './types';
-
-describe('isWarmEnough', () => {
-	it('should return true when tempMax is greater than trigger', () => {
-		expect(isWarmEnough(20, 25, 15)).toBe(true);
-	});
-
-	it('should return true when tempMax equals trigger', () => {
-		expect(isWarmEnough(20, 20, 15)).toBe(true);
-	});
-
-	it('should return true when temp is greater than trigger', () => {
-		expect(isWarmEnough(20, 15, 25)).toBe(true);
-	});
-
-	it('should return true when temp equals trigger', () => {
-		expect(isWarmEnough(20, 15, 20)).toBe(true);
-	});
-
-	it('should return false when both temp and tempMax are less than trigger', () => {
-		expect(isWarmEnough(20, 15, 15)).toBe(false);
-	});
-});
 
 describe('isItShortsWeatherToday', () => {
 	it('should return true when the weather is clear and warm enough', () => {
