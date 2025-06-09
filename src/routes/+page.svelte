@@ -14,6 +14,9 @@
 	let error = $state();
 	let location = $state();
 	let showSettingsModal = $state(false);
+	let title = $derived(
+		weather?.name ? `Is It Shorts Weather Today in ${weather.name}?` : 'Is It Shorts Weather Today?'
+	);
 
 	let settings = $state({
 		unit: 'celsius',
@@ -104,6 +107,12 @@
 		hydrateFromParams();
 	});
 </script>
+
+<svelte:head>
+	<title>
+		{title}
+	</title>
+</svelte:head>
 
 {#if showSettingsModal}
 	<SettingsModal closeModal={() => (showSettingsModal = false)} />

@@ -4,15 +4,15 @@
 
 - ~Get current location~
 - ~Query OpenWeather~
-- Render the response
+- ~Render the response~
 - ~Hydrate from params~
-- Tests
+- ~Unit Tests~
 - ~New shader background~
-- OG image
-- Update title
-- America mode 🇺🇸
+- ~Update title~
+- ~America mode 🇺🇸~
 - ~Settings~
 - ~404 response~
+- OG image
 
 ## Running 'tingz
 
