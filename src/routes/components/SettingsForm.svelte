@@ -25,6 +25,17 @@
 		localStorage.setItem('weatherSettings', JSON.stringify(settings));
 		onSubmit();
 	}
+
+	function handleUnitChange(e: Event) {
+		const target = e.target as HTMLInputElement;
+		unit = target.value;
+
+		if (unit === 'celsius') {
+			trigger = 18;
+		} else {
+			trigger = 64;
+		}
+	}
 </script>
 
 <form class="settings-form" onsubmit={handleSubmit}>
@@ -33,11 +44,23 @@
 		<div class="form-control">
 			<div class="radio-group">
 				<label>
-					<input type="radio" name="unit" value="celsius" bind:group={unit} />
+					<input
+						type="radio"
+						name="unit"
+						value="celsius"
+						bind:group={unit}
+						onchange={handleUnitChange}
+					/>
 					C
 				</label>
 				<label>
-					<input type="radio" name="unit" value="fahrenheit" bind:group={unit} />
+					<input
+						type="radio"
+						name="unit"
+						value="fahrenheit"
+						bind:group={unit}
+						onchange={handleUnitChange}
+					/>
 					F
 				</label>
 			</div>
