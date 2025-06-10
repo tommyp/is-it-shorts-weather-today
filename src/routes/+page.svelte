@@ -32,6 +32,7 @@
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
 		isLoading = true;
+		error = null;
 		const response = await fetch('/api', {
 			method: 'POST',
 			headers: {
@@ -39,6 +40,8 @@
 			},
 			body: JSON.stringify(params)
 		});
+
+		isLoading = false;
 
 		if (!response.ok) {
 			console.log(response);
@@ -129,7 +132,12 @@
 	<div>
 		<Header location={weather?.name} />
 	</div>
-	{#if weather || error}
+	{#if isLoading}
+		<div class="loading">
+			<p>Loading...</p>
+		</div>
+	{/if}
+	{#if !isLoading && (weather || error)}
 		<Decision forecast={weather} {error} {settings} />
 	{/if}
 	<div>
@@ -232,6 +240,22 @@
 
 	input:focus {
 		outline: none;
+	}
+
+	.loading {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	p {
+		font-size: 4rem;
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
+		opacity: 0.5;
+		color: var(--white);
+		font-weight: bold;
 	}
 
 	@media (min-width: 576px) {
