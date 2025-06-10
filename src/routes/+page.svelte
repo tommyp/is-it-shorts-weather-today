@@ -6,17 +6,18 @@
 	import Footer from './components/Footer.svelte';
 	import SettingsModal from './components/SettingsModal.svelte';
 	import Background from './components/Background.svelte';
-	import { goto, pushState } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import type { Forecast } from '$lib/types';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
-	let weather: any = $state();
+	let weather: Forecast | null = $state(null);
 	let isLoading = $state(false);
 	let error = $state();
 	let location = $state();
 	let showSettingsModal = $state(false);
 	let title = $derived(
-		weather?.name ? `Is It Shorts Weather Today in ${weather.name}?` : 'Is It Shorts Weather Today?'
+		weather ? `Is It Shorts Weather Today in ${weather['name']}?` : 'Is It Shorts Weather Today?'
 	);
 
 	let settings = $state({
@@ -151,7 +152,7 @@
 	{/if}
 	<div>
 		<div class="controls">
-			<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting">
+			<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting" withShadow>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"

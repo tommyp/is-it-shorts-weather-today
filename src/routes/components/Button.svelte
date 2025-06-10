@@ -2,9 +2,10 @@
 	export let onclick: null | (() => void) = null;
 	export let type: 'button' | 'submit' | 'reset' = 'button';
 	export let ariaLabel: string | null = null;
+	export let withShadow: boolean = false;
 </script>
 
-<button {onclick} {type} aria-label={ariaLabel}>
+<button {onclick} {type} aria-label={ariaLabel} class:withShadow>
 	<slot />
 </button>
 
@@ -25,6 +26,12 @@
 		padding: 0.5rem 1rem;
 		transition: all 0.2s;
 		width: 0.5rem;
+	}
+
+	.withShadow {
+		box-shadow:
+			0 4px 6px rgba(0, 0, 0, 0.1),
+			0 1px 3px rgba(0, 0, 0, 0.08);
 	}
 
 	button:hover {
