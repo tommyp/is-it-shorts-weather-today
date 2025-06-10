@@ -14,6 +14,11 @@
 	aria-modal="true"
 	tabindex="-1"
 	onkeydown={(e) => e.key === 'Escape' && closeModal()}
+	onclick={(e) => {
+		if (e.target === e.currentTarget) {
+			closeModal();
+		}
+	}}
 >
 	<div class="modal">
 		<button class="close-button" onclick={closeModal} aria-label="Close">

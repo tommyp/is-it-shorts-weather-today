@@ -13,6 +13,7 @@
 - ~Settings~
 - ~404 response~
 - OG image
+- Deploy
 
 ## Running 'tingz
 
