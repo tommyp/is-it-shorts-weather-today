@@ -18,19 +18,36 @@ const conditions = {
 	haze: [711, 721, 731, 751, 761, 762]
 };
 
-const isItShortsWeatherToday = (forecast: Forecast, trigger: number) => {
+interface ShortsResponse {
+	isShortsWeatherToday: boolean;
+	temp: number;
+	condition: string;
+	locationName: string;
+}
+
+const isItShortsWeatherToday = (forecast: Forecast, trigger: number): ShortsResponse => {
 	const { temp_max: tempMax, temp } = forecast.main;
 	const code = forecast.weather[0].id;
 
 	// clear or clouds
 	if (code == conditions.clear || conditions.clouds.includes(code)) {
-		return isWarmEnough(trigger, tempMax, temp);
+		return {
+			isShortsWeatherToday: isWarmEnough(trigger, tempMax, temp),
+			temp,
+			condition: forecast.weather[0].main,
+			locationName: forecast.name
+		};
 	}
 
 	// overcast
 	if (code === 804) {
 		const t = trigger > 21 ? trigger : 21;
-		return isWarmEnough(t, tempMax, temp);
+		return {
+			isShortsWeatherToday: isWarmEnough(t, tempMax, temp),
+			temp,
+			condition: forecast.weather[0].main,
+			locationName: forecast.name
+		};
 	}
 
 	// haze
@@ -42,17 +59,32 @@ const isItShortsWeatherToday = (forecast: Forecast, trigger: number) => {
 			tempMax: tempMax,
 			temp: temp
 		});
-		return isWarmEnough(t, tempMax, temp);
+		return {
+			isShortsWeatherToday: isWarmEnough(t, tempMax, temp),
+			temp,
+			condition: forecast.weather[0].main,
+			locationName: forecast.name
+		};
 	}
 
 	// warm weather
 	const t = trigger > 23 ? trigger : 23;
 
 	if (isWarmEnough(t, tempMax, temp)) {
-		return true;
+		return {
+			isShortsWeatherToday: true,
+			temp,
+			condition: forecast.weather[0].main,
+			locationName: forecast.name
+		};
 	}
 
-	return false;
+	return {
+		isShortsWeatherToday: false,
+		temp,
+		condition: forecast.weather[0].main,
+		locationName: forecast.name
+	};
 };
 
 export { isItShortsWeatherToday };

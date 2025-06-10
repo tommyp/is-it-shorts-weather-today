@@ -13,10 +13,15 @@
 	});
 
 	$effect(() => {
-		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
-			decision = 'yes';
-		} else {
-			decision = 'no';
+		if (forecast) {
+			const { isShortsWeatherToday, temp, condition, locationName } = isItShortsWeatherToday(
+				forecast,
+				settings.trigger
+			);
+			decision = isShortsWeatherToday ? 'yes' : 'no';
+			temp = temp;
+			condition = condition;
+			locationName = locationName;
 		}
 	});
 </script>
