@@ -93,6 +93,12 @@
 		border-radius: 0.5rem;
 		display: flex;
 		flex-direction: column;
+		box-shadow:
+			1px 1px 0 var(--yellow),
+			2px 2px 0 var(--yellow),
+			3px 3px 0 var(--yellow),
+			4px 4px 0 var(--yellow),
+			5px 5px 0 var(--yellow);
 	}
 
 	h3 {
