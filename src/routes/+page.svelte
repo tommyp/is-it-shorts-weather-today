@@ -6,7 +6,8 @@
 	import Footer from './components/Footer.svelte';
 	import SettingsModal from './components/SettingsModal.svelte';
 	import Background from './components/Background.svelte';
-	import { pushState } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
+	import { browser } from '$app/environment';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weather: any = $state();
@@ -67,7 +68,7 @@
 	});
 
 	const findMe = () => {
-		if (navigator.geolocation) {
+		if (browser && navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				const lat = position.coords.latitude;
 				const lon = position.coords.longitude;
@@ -96,7 +97,15 @@
 			qp.location = params.location || '';
 		}
 
-		history.pushState(null, '', `?${new URLSearchParams(qp).toString()}`);
+		if (browser) {
+			const url = new URL(window.location.href);
+			url.searchParams.delete('lat');
+			url.searchParams.delete('lon');
+			url.searchParams.delete('location');
+			Object.entries(qp).forEach(([key, value]) => url.searchParams.set(key, value));
+
+			goto(url.toString(), { replaceState: true });
+		}
 	};
 
 	const hydrateFromParams = () => {
