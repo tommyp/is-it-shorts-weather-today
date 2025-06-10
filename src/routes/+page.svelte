@@ -41,7 +41,13 @@
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to fetch weather');
+			console.log(response);
+			if (response.status === 404) {
+				error = "That's not a place";
+			} else {
+				error = 'Failed to fetch weather';
+			}
+			return;
 		}
 
 		return response.json();
@@ -93,13 +99,14 @@
 	const hydrateFromParams = () => {
 		const url = new URL(window.location.href);
 		const queryParams = new URLSearchParams(url.search);
-		const location = queryParams.get('location');
-		const lat = queryParams.get('lat');
-		const lon = queryParams.get('lon');
-		if (location) {
-			requestParams = { location };
-		} else if (lat && lon) {
-			requestParams = { lat: Number(lat), lon: Number(lon) };
+		const locationParam = queryParams.get('location');
+		const latParam = queryParams.get('lat');
+		const lonParam = queryParams.get('lon');
+		if (locationParam) {
+			location = locationParam;
+			requestParams = { location: locationParam };
+		} else if (latParam && lonParam) {
+			requestParams = { lat: Number(latParam), lon: Number(lonParam) };
 		}
 	};
 

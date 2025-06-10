@@ -23,7 +23,7 @@
 
 {#if error}
 	<div class="error">
-		<p>{error}</p>
+		<h1>{error}</h1>
 	</div>
 {:else}
 	<div>
@@ -46,6 +46,7 @@
 	h1 {
 		font-size: 8rem;
 		text-transform: uppercase;
+		text-align: center;
 	}
 
 	p {

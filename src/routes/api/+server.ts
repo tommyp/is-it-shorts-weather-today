@@ -1,6 +1,6 @@
 import { OPENWEATHER_API_KEY } from '$env/static/private';
 import type { RequestHandler } from '@sveltejs/kit';
-import { error, json } from '@sveltejs/kit';
+import { error, isHttpError, json } from '@sveltejs/kit';
 
 interface WeatherRequest {
 	units?: 'metric' | 'imperial' | 'standard';
@@ -39,6 +39,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const response = await fetch(`${WEATHER_API_URL}?${params}`);
 
+		// console.log(response);
+
 		if (!response.ok) {
 			const errorData = await response.json().catch(() => null);
 			throw error(response.status, errorData?.message || 'Failed to fetch weather data');
@@ -47,10 +49,15 @@ export const POST: RequestHandler = async ({ request }) => {
 		const data = await response.json();
 		return json(data);
 	} catch (err) {
-		if (err instanceof Response) {
-			throw err;
+		// if (err instanceof Response) {
+		// 	throw err;
+		// }
+		if (isHttpError(err) && err.status === 404) {
+			return error(404, {
+				message: 'Location not found'
+			});
+		} else {
+			return error(500, 'Internal server error');
 		}
-		console.error('Weather API error:', err);
-		throw error(500, 'Internal server error');
 	}
 };
