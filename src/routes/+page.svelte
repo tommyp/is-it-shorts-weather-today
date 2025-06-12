@@ -25,11 +25,30 @@
 		trigger: 18
 	});
 
-	onMount(() => {
+	const loadSettings = () => {
 		const savedSettings = localStorage.getItem('weatherSettings');
 		if (savedSettings) {
 			settings = JSON.parse(savedSettings);
 		}
+	};
+
+	const hydrateFromParams = () => {
+		const url = new URL(window.location.href);
+		const queryParams = new URLSearchParams(url.search);
+		const locationParam = queryParams.get('location');
+		const latParam = queryParams.get('lat');
+		const lonParam = queryParams.get('lon');
+		if (locationParam) {
+			location = locationParam;
+			requestParams = { location: locationParam };
+		} else if (latParam && lonParam) {
+			requestParams = { lat: Number(latParam), lon: Number(lonParam) };
+		}
+	};
+
+	onMount(() => {
+		hydrateFromParams();
+		loadSettings();
 	});
 
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
@@ -108,24 +127,6 @@
 			goto(url.toString(), { replaceState: true });
 		}
 	};
-
-	const hydrateFromParams = () => {
-		const url = new URL(window.location.href);
-		const queryParams = new URLSearchParams(url.search);
-		const locationParam = queryParams.get('location');
-		const latParam = queryParams.get('lat');
-		const lonParam = queryParams.get('lon');
-		if (locationParam) {
-			location = locationParam;
-			requestParams = { location: locationParam };
-		} else if (latParam && lonParam) {
-			requestParams = { lat: Number(latParam), lon: Number(lonParam) };
-		}
-	};
-
-	onMount(() => {
-		hydrateFromParams();
-	});
 </script>
 
 <svelte:head>
@@ -135,7 +136,12 @@
 </svelte:head>
 
 {#if showSettingsModal}
-	<SettingsModal closeModal={() => (showSettingsModal = false)} />
+	<SettingsModal
+		closeModal={() => {
+			showSettingsModal = false;
+			loadSettings();
+		}}
+	/>
 {/if}
 <Background />
 <main>
