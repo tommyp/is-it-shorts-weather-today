@@ -14,6 +14,7 @@
 - ~404 response~
 - ~Deploy~
 - Use newer settings without reloading the page
+- SEO
 - OG image
 
 ## Running 'tingz
