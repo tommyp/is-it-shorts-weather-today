@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Button from './components/Button.svelte';
-	import Decision from './components/Decision.svelte';
-	import Header from './components/Header.svelte';
-	import Footer from './components/Footer.svelte';
-	import SettingsModal from './components/SettingsModal.svelte';
-	import Background from './components/Background.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Decision from '$lib/components/Decision.svelte';
+	import Header from '$lib/components/Header.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import SettingsModal from '$lib/components/SettingsModal.svelte';
+	import Background from '$lib/components/Background.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import type { Forecast } from '$lib/types';
