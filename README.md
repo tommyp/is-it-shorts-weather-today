@@ -12,8 +12,8 @@
 - ~America mode 🇺🇸~
 - ~Settings~
 - ~404 response~
+- ~Deploy~
 - OG image
-- Deploy
 
 ## Running 'tingz
 

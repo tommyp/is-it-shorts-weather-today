@@ -37,6 +37,13 @@
 			5px 5px 0 var(--red);
 	}
 
+	.withShadow:active {
+		box-shadow:
+			1px 1px 0 var(--red),
+			2px 2px 0 var(--red),
+			3px 3px 0 var(--red);
+	}
+
 	button:hover {
 		background-color: #f9fafb;
 		cursor: pointer;
