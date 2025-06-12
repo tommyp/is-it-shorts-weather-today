@@ -60,4 +60,14 @@
 		text-transform: uppercase;
 		margin-bottom: 0.5rem;
 	}
+
+	.error h1 {
+		font-size: 6rem;
+	}
+
+	@media (min-width: 768px) {
+		.error h1 {
+			font-size: 8rem;
+		}
+	}
 </style>

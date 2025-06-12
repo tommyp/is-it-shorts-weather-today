@@ -13,6 +13,7 @@
 - ~Settings~
 - ~404 response~
 - ~Deploy~
+- Use newer settings without reloading the page
 - OG image
 
 ## Running 'tingz
