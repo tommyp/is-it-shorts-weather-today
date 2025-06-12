@@ -2,6 +2,9 @@
 	"name": "is-it-shorts-weather-today",
 	"main": ".svelte-kit/cloudflare/_worker.js",
 	"compatibility_date": "2025-01-01",
+	"observability": {
+		"enabled": true
+	},
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"
