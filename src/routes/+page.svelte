@@ -19,6 +19,7 @@
 	let title = $derived(
 		weather ? `Is It Shorts Weather Today in ${weather['name']}?` : 'Is It Shorts Weather Today?'
 	);
+	let condition = $derived((weather as Forecast | null)?.weather?.[0]?.main ?? 'Clear');
 
 	let settings = $state({
 		unit: 'celsius',
@@ -143,7 +144,7 @@
 		}}
 	/>
 {/if}
-<Background />
+<Background status={condition === 'Rain' ? 'cold' : 'warm'} />
 <main>
 	<div>
 		<Header location={weather?.name} />

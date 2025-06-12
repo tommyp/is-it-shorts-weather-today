@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Tween } from 'svelte/motion';
+	const { status = 'warm' } = $props();
 
 	const duration = 5000;
 
@@ -21,23 +22,47 @@
 			tweenY.target = targets.y;
 		}, duration);
 	});
+
+	const warmColors = {
+		color1: { h: 0, s: 100, l: 65 },
+		color2: { h: 30, s: 100, l: 65 },
+		color3: { h: 51, s: 100, l: 50 },
+		color4: { h: 33, s: 100, l: 50 },
+		color5: { h: 41, s: 77, l: 52 },
+		color6: { h: 45, s: 100, l: 50 }
+	};
+
+	const coldColors = {
+		color1: { h: 200, s: 100, l: 65 },
+		color2: { h: 230, s: 100, l: 65 },
+		color3: { h: 251, s: 100, l: 50 },
+		color4: { h: 233, s: 100, l: 50 },
+		color5: { h: 241, s: 77, l: 52 },
+		color6: { h: 245, s: 100, l: 50 }
+	};
+
+	const tweenColor = new Tween(status === 'warm' ? warmColors : coldColors, { duration: 500 });
+
+	$effect(() => {
+		tweenColor.target = status === 'warm' ? warmColors : coldColors;
+	});
 </script>
 
 <div
 	class="background"
-	style={`--position-x: ${tweenX.current}%; --position-y: ${tweenY.current}%`}
+	style={`
+		--position-x: ${tweenX.current}%;
+		--position-y: ${tweenY.current}%;
+		--color-1: hsl(${tweenColor.current.color1.h}, ${tweenColor.current.color1.s}%, ${tweenColor.current.color1.l}%);
+		--color-2: hsl(${tweenColor.current.color2.h}, ${tweenColor.current.color2.s}%, ${tweenColor.current.color2.l}%);
+		--color-3: hsl(${tweenColor.current.color3.h}, ${tweenColor.current.color3.s}%, ${tweenColor.current.color3.l}%);
+		--color-4: hsl(${tweenColor.current.color4.h}, ${tweenColor.current.color4.s}%, ${tweenColor.current.color4.l}%);
+		--color-5: hsl(${tweenColor.current.color5.h}, ${tweenColor.current.color5.s}%, ${tweenColor.current.color5.l}%);
+		--color-6: hsl(${tweenColor.current.color6.h}, ${tweenColor.current.color6.s}%, ${tweenColor.current.color6.l}%);
+	`}
 ></div>
 
 <style>
-	:root {
-		--color-1: #ff4d4d; /* Bright red */
-		--color-2: #ffa64d; /* Orange */
-		--color-3: #ffd700; /* Gold */
-		--color-4: #ff8c00; /* Dark orange */
-		--color-5: #e4a328; /* Yellow */
-		--color-6: #ffb300; /* Green */
-	}
-
 	.background {
 		position: fixed;
 		top: 0;
