@@ -1,4 +1,0 @@
-<slot></slot>
-
-<style>
-</style>
