@@ -33,7 +33,13 @@
 			5px 5px 0 var(--red);
 	}
 
-	@media (min-width: 576px) {
+	@media (min-width: 768px) {
+		h1 {
+			font-size: 5rem;
+		}
+	}
+
+	@media (min-width: 992px) {
 		h1 {
 			font-size: 7rem;
 		}
