@@ -1,51 +1,4 @@
 @font-face {
-	font-family: 'Orbitron';
-	src: url('/fonts/Orbitron/orbitron-light-webfont.woff') format('woff');
-	font-weight: 300;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Orbitron';
-	src: url('/fonts/Orbitron/orbitron-medium-webfont.woff') format('woff');
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Orbitron';
-	src: url('/fonts/Orbitron/orbitron-bold-webfont.woff') format('woff');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Orbitron';
-	src: url('/fonts/Orbitron/orbitron-black-webfont.woff') format('woff');
-	font-weight: 900;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Neue Black';
-	src: url('/fonts/NeueBlack/TheNeue-Black.woff2') format('woff2');
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-ExtraLight.woff2') format('woff2');
-	font-weight: 200;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
 	font-family: 'Spartan';
 	src: url('/fonts/Spartan/LeagueSpartan-Light.woff2') format('woff2');
 	font-weight: 300;
@@ -55,48 +8,8 @@
 
 @font-face {
 	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-Regular.woff2') format('woff2');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-Medium.woff2') format('woff2');
-	font-weight: 500;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-SemiBold.woff2') format('woff2');
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
 	src: url('/fonts/Spartan/LeagueSpartan-Bold.woff2') format('woff2');
 	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-ExtraBold.woff2') format('woff2');
-	font-weight: 800;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Spartan';
-	src: url('/fonts/Spartan/LeagueSpartan-Black.woff2') format('woff2');
-	font-weight: 900;
 	font-style: normal;
 	font-display: swap;
 }
