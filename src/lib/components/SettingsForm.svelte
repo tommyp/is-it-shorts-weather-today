@@ -174,6 +174,14 @@
 		border: none;
 		padding: 0.75rem 0 0.5rem 0.5rem;
 		width: 4.5rem;
+		appearance: textfield;
+	}
+
+	/* Chrome, Safari, Edge, Opera */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
 
 	input[type='number']:focus {
