@@ -13,9 +13,11 @@
 - ~Settings~
 - ~404 response~
 - ~Deploy~
-- Use newer settings without reloading the page
+- ~Use newer settings without reloading the page~
+- ~OG image~
+- Move domain
+- Fix mobile screen height
 - SEO
-- OG image
 
 ## Running 'tingz
 

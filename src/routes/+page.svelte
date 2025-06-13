@@ -217,7 +217,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: space-between;
-		height: 100vh;
+		height: 100dvh;
 		max-width: 1024px;
 		margin: 0 auto;
 	}
