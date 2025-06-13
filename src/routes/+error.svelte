@@ -5,10 +5,9 @@
 <Background />
 <main>
 	<h1>It's banjaxed</h1>
-	<h2>
-		Something went wrong. Please try again later.
-		<a href="/">Go back to the home page</a>
-	</h2>
+	<p>
+		Something's broken, so <a href="/">try again later.</a>
+	</p>
 </main>
 
 <style>
@@ -33,10 +32,14 @@
 			5px 5px 0 var(--red);
 	}
 
-	h2 {
+	p {
 		font-size: 2rem;
 		text-transform: uppercase;
 		margin-top: 1rem;
 		text-align: center;
+	}
+
+	a {
+		color: var(--white);
 	}
 </style>
