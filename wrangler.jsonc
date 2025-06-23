@@ -8,5 +8,11 @@
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"
-	}
+	},
+	"routes": [
+		{
+			"custom_domain": true,
+			"pattern": "isitshortsweathertoday.com"
+		}
+	]
 }
