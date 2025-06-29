@@ -20,6 +20,7 @@
 	}
 
 	h1 {
+		line-height: 0.9;
 		font-size: 2.5rem;
 		font-weight: 700;
 		text-transform: uppercase;

@@ -44,6 +44,8 @@
 		color: var(--white);
 	}
 	h1 {
+		line-height: 0.9;
+		margin-bottom: -2rem;
 		font-size: 8rem;
 		text-transform: uppercase;
 		text-align: center;
