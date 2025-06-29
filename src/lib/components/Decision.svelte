@@ -66,6 +66,9 @@
 	}
 
 	@media (min-width: 768px) {
+		h1 {
+			font-size: 16rem;
+		}
 		.error h1 {
 			font-size: 8rem;
 		}
