@@ -39,8 +39,6 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const response = await fetch(`${WEATHER_API_URL}?${params}`);
 
-		// console.log(response);
-
 		if (!response.ok) {
 			const errorData = await response.json().catch(() => null);
 			throw error(response.status, errorData?.message || 'Failed to fetch weather data');
@@ -49,9 +47,6 @@ export const POST: RequestHandler = async ({ request }) => {
 		const data = await response.json();
 		return json(data);
 	} catch (err) {
-		// if (err instanceof Response) {
-		// 	throw err;
-		// }
 		if (isHttpError(err) && err.status === 404) {
 			return error(404, {
 				message: 'Location not found'
