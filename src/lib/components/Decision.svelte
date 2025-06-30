@@ -45,6 +45,7 @@
 	}
 	h1 {
 		line-height: 0.9;
+		margin-bottom: -0.5rem;
 		font-size: 8rem;
 		text-transform: uppercase;
 		text-align: center;
