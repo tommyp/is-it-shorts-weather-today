@@ -26,6 +26,7 @@
 		text-transform: uppercase;
 		text-align: center;
 		margin: 1rem auto;
+		padding: 0 1rem;
 		text-shadow:
 			1px 1px 0 var(--red),
 			2px 2px 0 var(--red),
