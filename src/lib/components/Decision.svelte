@@ -45,7 +45,6 @@
 	}
 	h1 {
 		line-height: 0.9;
-		margin-bottom: -2rem;
 		font-size: 8rem;
 		text-transform: uppercase;
 		text-align: center;
@@ -70,6 +69,7 @@
 	@media (min-width: 768px) {
 		h1 {
 			font-size: 16rem;
+			margin-bottom: -2rem;
 		}
 		.error h1 {
 			font-size: 8rem;

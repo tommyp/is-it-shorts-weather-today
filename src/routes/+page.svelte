@@ -174,7 +174,16 @@
 			</Button>
 
 			<form onsubmit={handleSubmit}>
-				<input type="text" name="location" autocomplete="off" bind:value={location} />
+				<label for="location">
+					<span style="display: none;"> Location name </span>
+					<input
+						type="text"
+						id="location"
+						name="location"
+						autocomplete="off"
+						bind:value={location}
+					/>
+				</label>
 
 				<Button onclick={findMe} ariaLabel="Find Me">
 					<svg
@@ -191,7 +200,7 @@
 					</svg>
 				</Button>
 
-				<Button type="submit">
+				<Button type="submit" ariaLabel={'Search'}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
@@ -242,6 +251,13 @@
 			3px 3px 0 var(--red),
 			4px 4px 0 var(--red),
 			5px 5px 0 var(--red);
+	}
+
+	label {
+		padding: 0.1rem;
+		width: 100%;
+		flex: 1;
+		display: flex;
 	}
 
 	input {
