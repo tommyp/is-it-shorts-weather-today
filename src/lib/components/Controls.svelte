@@ -6,6 +6,7 @@
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
 		showSettingsModal: boolean;
+		location: string | undefined;
 	};
 
 	let {

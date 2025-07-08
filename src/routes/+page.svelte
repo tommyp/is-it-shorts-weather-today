@@ -54,7 +54,7 @@
 	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
 		isLoading = true;
 		error = null;
-		const response = await fetch('/api', {
+		const response = await fetch('/api/current', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
