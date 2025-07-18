@@ -43,6 +43,10 @@
 	});
 
 	$inspect(results);
+
+	const renderName = (result: { name: string; country: string; state?: string }) => {
+		return result.name + (result.state ? `, ${result.state}` : '') + `, ${result.country}`;
+	};
 </script>
 
 <div class="search-container">
@@ -51,8 +55,7 @@
 			{#each results as result}
 				<li>
 					<button>
-						{result.name}, {result.country}
-						{#if result.state}, {result.state}{/if}
+						{renderName(result)}
 					</button>
 				</li>
 			{/each}
@@ -92,7 +95,7 @@
 		background-color: transparent;
 		border: 0.25rem solid var(--white);
 		border-bottom: 0;
-		color: var(--white);
+
 		display: flex;
 		font-size: 1.25rem;
 		font-family: var(--font-primary);
@@ -102,12 +105,14 @@
 		padding: 0.5rem 1rem;
 		transition: all 0.2s;
 		text-align: left;
+		background: var(--orange);
+		color: var(--white);
 	}
 
 	button:hover {
-		background-color: var(--white);
+		background-color: var(--red);
 		cursor: pointer;
-		color: var(--red);
+		color: var(--white);
 	}
 
 	li:first-of-type button {
