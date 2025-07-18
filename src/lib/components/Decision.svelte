@@ -49,6 +49,7 @@
 		font-size: 8rem;
 		text-transform: uppercase;
 		text-align: center;
+		text-wrap: balance;
 		text-shadow:
 			1px 1px 0 var(--red),
 			2px 2px 0 var(--red),

@@ -2,6 +2,12 @@
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import Search from './Search.svelte';
+	import { Debounced } from 'runed';
+
+	let searchInput = $state();
+
+	const debounced = new Debounced(() => searchInput, 500);
 
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
@@ -60,6 +66,7 @@
 </script>
 
 <div class="controls">
+	<Search query={debounced.current} />
 	<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting" withShadow>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
 			<path
@@ -73,7 +80,16 @@
 	<form onsubmit={handleSubmit}>
 		<label for="location">
 			<span style="display: none;"> Location name </span>
-			<input type="text" id="location" name="location" autocomplete="off" bind:value={location} />
+			<input
+				type="text"
+				id="location"
+				name="location"
+				autocomplete="off"
+				bind:value={location}
+				onkeyup={(e: Event) => {
+					searchInput = (e.target as HTMLInputElement).value;
+				}}
+			/>
 		</label>
 
 		<Button onclick={findMe} ariaLabel="Find Me">
@@ -115,6 +131,7 @@
 		padding: 0 0.5rem;
 		margin: 0 auto 1rem;
 		width: 100%;
+		position: relative;
 	}
 
 	form {
