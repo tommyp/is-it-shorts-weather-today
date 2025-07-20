@@ -1,7 +1,12 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 
-	let { query } = $props();
+	type Props = {
+		query: undefined | string;
+		handleSearchSelection: (location: string) => void;
+	};
+
+	let { query, handleSearchSelection }: Props = $props();
 
 	let results: { name: string; country: string; state?: string }[] = $state([]);
 	let isLoading = $state();
@@ -37,6 +42,10 @@
 	};
 
 	$effect(() => {
+		if (!query || query.length === 0) {
+			results = [];
+			return;
+		}
 		doSearch(query).then((data) => {
 			results = data;
 		});
@@ -54,7 +63,12 @@
 		<ul>
 			{#each results as result}
 				<li>
-					<button>
+					<button
+						onclick={() => {
+							handleSearchSelection(result.name);
+							results = [];
+						}}
+					>
 						{renderName(result)}
 					</button>
 				</li>
@@ -82,6 +96,13 @@
 		margin: 0;
 		display: flex;
 		flex-direction: column;
+		border-radius: 5px;
+		box-shadow:
+			1px 1px 0 var(--red),
+			2px 2px 0 var(--red),
+			3px 3px 0 var(--red),
+			4px 4px 0 var(--red),
+			5px 5px 0 var(--red);
 	}
 
 	.search-container li {

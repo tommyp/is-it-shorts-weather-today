@@ -3,11 +3,9 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import Search from './Search.svelte';
-	import { Debounced } from 'runed';
+	import { useDebounce } from 'runed';
 
-	let searchInput = $state();
-
-	const debounced = new Debounced(() => searchInput, 500);
+	let searchInput: string | undefined = $state();
 
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
@@ -21,7 +19,17 @@
 		location = $bindable()
 	}: Props = $props();
 
+	const debounceSearch = useDebounce(() => {
+		searchInput = location || '';
+	}, 500);
+
+	const cancelAndClearSearch = () => {
+		debounceSearch.cancel();
+		searchInput = undefined;
+	};
+
 	const handleSubmit = (e: Event) => {
+		cancelAndClearSearch;
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
 		const location = formData.get('location') as string;
@@ -29,7 +37,14 @@
 		setWindowParams(requestParams);
 	};
 
+	const handleSearchSelection = (location: string) => {
+		cancelAndClearSearch;
+		requestParams = { location };
+		setWindowParams(requestParams);
+	};
+
 	const findMe = () => {
+		cancelAndClearSearch;
 		if (browser && navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				const lat = position.coords.latitude;
@@ -66,7 +81,7 @@
 </script>
 
 <div class="controls">
-	<Search query={debounced.current} />
+	<Search query={searchInput} {handleSearchSelection} />
 	<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting" withShadow>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
 			<path
@@ -86,8 +101,8 @@
 				name="location"
 				autocomplete="off"
 				bind:value={location}
-				onkeyup={(e: Event) => {
-					searchInput = (e.target as HTMLInputElement).value;
+				onkeyup={() => {
+					debounceSearch();
 				}}
 			/>
 		</label>
