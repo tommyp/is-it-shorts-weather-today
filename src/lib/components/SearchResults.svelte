@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { renderName } from '$lib/utils';
+
 	type Props = {
 		handleSearchSelection: (location: string) => void;
 		results: { name: string; country: string; state?: string }[];
@@ -6,10 +8,6 @@
 	};
 
 	let { handleSearchSelection, results, selectedSearchResultIndex }: Props = $props();
-
-	const renderName = (result: { name: string; country: string; state?: string }) => {
-		return result.name + (result.state ? `, ${result.state}` : '') + `, ${result.country}`;
-	};
 </script>
 
 <div class="search-container">

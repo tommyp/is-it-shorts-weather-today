@@ -80,7 +80,7 @@
 	$effect(() => {
 		if (requestParams) {
 			makeRequest(requestParams).then((data) => {
-				console.log(data);
+				location = data.name;
 				weather = data;
 			});
 		}

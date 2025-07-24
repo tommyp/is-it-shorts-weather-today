@@ -4,6 +4,7 @@
 	import { browser } from '$app/environment';
 	import { useDebounce } from 'runed';
 	import SearchResults from './SearchResults.svelte';
+	import { renderName } from '$lib/utils';
 
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
@@ -18,7 +19,8 @@
 	}: Props = $props();
 
 	let searchInput: string | undefined = $state();
-	let results: { name: string; country: string; state?: string }[] = $state([]);
+	let results: { name: string; country: string; state?: string; lat: number; lon: number }[] =
+		$state([]);
 	let selectedSearchResultIndex: number | undefined = $state();
 
 	const debounceSearch = useDebounce(() => {
@@ -27,17 +29,24 @@
 
 	const cancelAndClearSearch = () => {
 		debounceSearch.cancel();
+		results = [];
 		searchInput = '';
 		selectedSearchResultIndex = undefined;
 	};
 
 	const handleSubmit = (e: Event) => {
 		e.preventDefault();
-		cancelAndClearSearch();
 		const formData = new FormData(e.target as HTMLFormElement);
-		const locationQuery = formData.get('location') as string;
-		requestParams = { location: locationQuery };
-		setWindowParams(requestParams);
+		if (selectedSearchResultIndex !== undefined) {
+			const selectedResult = results[selectedSearchResultIndex];
+			requestParams = { lat: selectedResult.lat, lon: selectedResult.lon };
+			setWindowParams(requestParams);
+			cancelAndClearSearch();
+		} else {
+			cancelAndClearSearch();
+			requestParams = { location: formData.get('location')?.toString() || '' };
+			setWindowParams(requestParams);
+		}
 	};
 
 	const handleSearchSelection = (locationQuery: string) => {
@@ -76,17 +85,17 @@
 				e.preventDefault();
 				handleDownArrowKey();
 				break;
-			case 'Enter':
-				e.preventDefault();
-				if (selectedSearchResultIndex !== undefined) {
-					location = `${results[selectedSearchResultIndex].name}, ${results[selectedSearchResultIndex].country}`;
+			// case 'Enter':
+			// 	e.preventDefault();
+			// 	if (selectedSearchResultIndex !== undefined) {
+			// 		location = `${results[selectedSearchResultIndex].name}, ${results[selectedSearchResultIndex].country}`;
 
-					results = [];
-					handleSubmit(e);
-				} else {
-					handleSubmit(e);
-				}
-				break;
+			// 		results = [];
+			// 		handleSearchSelection(location);
+			// 	} else {
+			// 		handleSubmit(e);
+			// 	}
+			// 	break;
 			default:
 				debounceSearch();
 		}
@@ -179,11 +188,7 @@
 		</svg>
 	</Button>
 
-	<form
-		onsubmit={(e) => {
-			e.preventDefault;
-		}}
-	>
+	<form onsubmit={handleSubmit}>
 		<label for="location">
 			<span style="display: none;"> Location name </span>
 			<input
