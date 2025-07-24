@@ -2,8 +2,8 @@
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import Search from './Search.svelte';
 	import { useDebounce } from 'runed';
+	import SearchResults from './SearchResults.svelte';
 
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
@@ -19,6 +19,7 @@
 
 	let searchInput: string | undefined = $state();
 	let results: { name: string; country: string; state?: string }[] = $state([]);
+	let selectedSearchResultIndex: number | undefined = $state();
 
 	const debounceSearch = useDebounce(() => {
 		searchInput = location || '';
@@ -27,7 +28,7 @@
 	const cancelAndClearSearch = () => {
 		debounceSearch.cancel();
 		searchInput = '';
-		results = [];
+		selectedSearchResultIndex = undefined;
 	};
 
 	const handleSubmit = (e: Event) => {
@@ -43,6 +44,50 @@
 		cancelAndClearSearch();
 		requestParams = { location };
 		setWindowParams(requestParams);
+	};
+
+	const handleUpArrowKey = () => {
+		if (
+			selectedSearchResultIndex === undefined ||
+			selectedSearchResultIndex == results.length - 1
+		) {
+			selectedSearchResultIndex = 0;
+		} else {
+			selectedSearchResultIndex += 1;
+		}
+	};
+
+	const handleDownArrowKey = () => {
+		if (selectedSearchResultIndex === undefined || selectedSearchResultIndex === 0) {
+			selectedSearchResultIndex = results.length - 1;
+		} else {
+			selectedSearchResultIndex -= 1;
+		}
+	};
+
+	const handleLocationInputChange = (e: KeyboardEvent) => {
+		console.log('Key pressed:', e);
+		switch (e.key) {
+			case 'ArrowUp':
+				e.preventDefault();
+				handleUpArrowKey();
+				break;
+			case 'ArrowDown':
+				e.preventDefault();
+				handleDownArrowKey();
+				break;
+			case 'Enter':
+				e.preventDefault();
+				if (selectedSearchResultIndex !== undefined) {
+					handleSearchSelection(results[selectedSearchResultIndex].name);
+					results = [];
+				} else {
+					handleSubmit(e);
+				}
+				break;
+			default:
+				debounceSearch();
+		}
 	};
 
 	const findMe = () => {
@@ -80,10 +125,48 @@
 			goto(url.toString(), { replaceState: true });
 		}
 	};
+
+	let isLoading = $state();
+	let error = $state();
+
+	const doSearch = async (query: string) => {
+		isLoading = true;
+		error = null;
+		const response = await fetch('/api/search', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ query })
+		});
+
+		if (!response.ok) {
+			console.log(response);
+			if (response.status === 404) {
+				error = "That's not a place";
+			} else {
+				error = 'Failed to fetch weather';
+			}
+			return;
+		}
+
+		return await response.json();
+	};
+
+	$effect(() => {
+		if (!searchInput || searchInput.length === 0) {
+			results = [];
+			return;
+		}
+
+		doSearch(searchInput).then((data) => {
+			results = data;
+		});
+	});
 </script>
 
 <div class="controls">
-	<Search query={searchInput} {handleSearchSelection} {results} />
+	<SearchResults {handleSearchSelection} {results} {selectedSearchResultIndex} />
 	<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting" withShadow>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
 			<path
@@ -103,9 +186,7 @@
 				name="location"
 				autocomplete="off"
 				bind:value={location}
-				onkeyup={() => {
-					debounceSearch();
-				}}
+				onkeyup={handleLocationInputChange}
 			/>
 		</label>
 

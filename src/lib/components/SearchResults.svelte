@@ -1,57 +1,11 @@
 <script lang="ts">
 	type Props = {
-		query: undefined | string;
 		handleSearchSelection: (location: string) => void;
 		results: { name: string; country: string; state?: string }[];
+		selectedSearchResultIndex?: number;
 	};
 
-	let { query, handleSearchSelection, results = $bindable() }: Props = $props();
-
-	let isLoading = $state();
-	let error = $state();
-
-	const doSearch = async (query: string) => {
-		if (!query || query.length === 0) {
-			results = [];
-			return;
-		}
-
-		isLoading = true;
-		error = null;
-		const response = await fetch('/api/search', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ query })
-		});
-
-		if (!response.ok) {
-			console.log(response);
-			if (response.status === 404) {
-				error = "That's not a place";
-			} else {
-				error = 'Failed to fetch weather';
-			}
-			return;
-		}
-
-		return await response.json();
-	};
-
-	$effect(() => {
-		console.log('running effect with query:', query);
-		if (!query || query.length === 0) {
-			console.log('No query provided, clearing results');
-			results = [];
-			return;
-		}
-		doSearch(query).then((data) => {
-			results = data;
-		});
-	});
-
-	$inspect(query);
+	let { handleSearchSelection, results, selectedSearchResultIndex }: Props = $props();
 
 	const renderName = (result: { name: string; country: string; state?: string }) => {
 		return result.name + (result.state ? `, ${result.state}` : '') + `, ${result.country}`;
@@ -61,9 +15,10 @@
 <div class="search-container">
 	{#if results.length > 0}
 		<ul>
-			{#each results as result}
+			{#each results as result, index}
 				<li>
 					<button
+						class:selected={selectedSearchResultIndex === index}
 						onclick={() => {
 							handleSearchSelection(result.name);
 							results = [];
@@ -96,6 +51,7 @@
 		margin: 0;
 		display: flex;
 		flex-direction: column;
+		flex-direction: column-reverse;
 		border-radius: 5px;
 		box-shadow:
 			1px 1px 0 var(--red),
@@ -130,17 +86,18 @@
 		color: var(--white);
 	}
 
-	button:hover {
+	button:hover,
+	button.selected {
 		background-color: var(--red);
 		cursor: pointer;
 		color: var(--white);
 	}
 
-	li:first-of-type button {
+	li:last-of-type button {
 		border-radius: 0.375rem 0.375rem 0 0;
 	}
 
-	li:last-of-type button {
+	li:first-of-type button {
 		border-radius: 0 0 0.375rem 0.375rem;
 		border: 0.25rem solid var(--white);
 	}
