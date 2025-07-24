@@ -16,15 +16,16 @@
 	{#if results.length > 0}
 		<ul>
 			{#each results as result, index}
+				{@const renderedName = renderName(result)}
 				<li>
 					<button
 						class:selected={selectedSearchResultIndex === index}
 						onclick={() => {
-							handleSearchSelection(result.name);
+							handleSearchSelection(renderedName);
 							results = [];
 						}}
 					>
-						{renderName(result)}
+						{renderedName}
 					</button>
 				</li>
 			{/each}

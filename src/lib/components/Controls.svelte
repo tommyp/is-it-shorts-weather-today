@@ -32,17 +32,18 @@
 	};
 
 	const handleSubmit = (e: Event) => {
-		cancelAndClearSearch();
 		e.preventDefault();
+		cancelAndClearSearch();
 		const formData = new FormData(e.target as HTMLFormElement);
-		const location = formData.get('location') as string;
-		requestParams = { location };
+		const locationQuery = formData.get('location') as string;
+		requestParams = { location: locationQuery };
 		setWindowParams(requestParams);
 	};
 
-	const handleSearchSelection = (location: string) => {
+	const handleSearchSelection = (locationQuery: string) => {
+		location = locationQuery;
 		cancelAndClearSearch();
-		requestParams = { location };
+		requestParams = { location: locationQuery };
 		setWindowParams(requestParams);
 	};
 
@@ -66,7 +67,6 @@
 	};
 
 	const handleLocationInputChange = (e: KeyboardEvent) => {
-		console.log('Key pressed:', e);
 		switch (e.key) {
 			case 'ArrowUp':
 				e.preventDefault();
@@ -79,8 +79,10 @@
 			case 'Enter':
 				e.preventDefault();
 				if (selectedSearchResultIndex !== undefined) {
-					handleSearchSelection(results[selectedSearchResultIndex].name);
+					location = `${results[selectedSearchResultIndex].name}, ${results[selectedSearchResultIndex].country}`;
+
 					results = [];
+					handleSubmit(e);
 				} else {
 					handleSubmit(e);
 				}
@@ -177,7 +179,11 @@
 		</svg>
 	</Button>
 
-	<form onsubmit={handleSubmit}>
+	<form
+		onsubmit={(e) => {
+			e.preventDefault;
+		}}
+	>
 		<label for="location">
 			<span style="display: none;"> Location name </span>
 			<input
