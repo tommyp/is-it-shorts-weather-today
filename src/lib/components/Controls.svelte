@@ -5,8 +5,6 @@
 	import Search from './Search.svelte';
 	import { useDebounce } from 'runed';
 
-	let searchInput: string | undefined = $state();
-
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
 		showSettingsModal: boolean;
@@ -19,17 +17,21 @@
 		location = $bindable()
 	}: Props = $props();
 
+	let searchInput: string | undefined = $state();
+	let results: { name: string; country: string; state?: string }[] = $state([]);
+
 	const debounceSearch = useDebounce(() => {
 		searchInput = location || '';
 	}, 500);
 
 	const cancelAndClearSearch = () => {
 		debounceSearch.cancel();
-		searchInput = undefined;
+		searchInput = '';
+		results = [];
 	};
 
 	const handleSubmit = (e: Event) => {
-		cancelAndClearSearch;
+		cancelAndClearSearch();
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
 		const location = formData.get('location') as string;
@@ -38,13 +40,13 @@
 	};
 
 	const handleSearchSelection = (location: string) => {
-		cancelAndClearSearch;
+		cancelAndClearSearch();
 		requestParams = { location };
 		setWindowParams(requestParams);
 	};
 
 	const findMe = () => {
-		cancelAndClearSearch;
+		cancelAndClearSearch();
 		if (browser && navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				const lat = position.coords.latitude;
@@ -81,7 +83,7 @@
 </script>
 
 <div class="controls">
-	<Search query={searchInput} {handleSearchSelection} />
+	<Search query={searchInput} {handleSearchSelection} {results} />
 	<Button onclick={() => (showSettingsModal = true)} ariaLabel="Setting" withShadow>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
 			<path

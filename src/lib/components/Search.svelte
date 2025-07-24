@@ -1,14 +1,12 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-
 	type Props = {
 		query: undefined | string;
 		handleSearchSelection: (location: string) => void;
+		results: { name: string; country: string; state?: string }[];
 	};
 
-	let { query, handleSearchSelection }: Props = $props();
+	let { query, handleSearchSelection, results = $bindable() }: Props = $props();
 
-	let results: { name: string; country: string; state?: string }[] = $state([]);
 	let isLoading = $state();
 	let error = $state();
 
@@ -42,7 +40,9 @@
 	};
 
 	$effect(() => {
+		console.log('running effect with query:', query);
 		if (!query || query.length === 0) {
+			console.log('No query provided, clearing results');
 			results = [];
 			return;
 		}
@@ -51,7 +51,7 @@
 		});
 	});
 
-	$inspect(results);
+	$inspect(query);
 
 	const renderName = (result: { name: string; country: string; state?: string }) => {
 		return result.name + (result.state ? `, ${result.state}` : '') + `, ${result.country}`;
