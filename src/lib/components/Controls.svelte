@@ -85,17 +85,7 @@
 				e.preventDefault();
 				handleDownArrowKey();
 				break;
-			// case 'Enter':
-			// 	e.preventDefault();
-			// 	if (selectedSearchResultIndex !== undefined) {
-			// 		location = `${results[selectedSearchResultIndex].name}, ${results[selectedSearchResultIndex].country}`;
 
-			// 		results = [];
-			// 		handleSearchSelection(location);
-			// 	} else {
-			// 		handleSubmit(e);
-			// 	}
-			// 	break;
 			default:
 				debounceSearch();
 		}
