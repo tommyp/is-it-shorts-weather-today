@@ -161,6 +161,8 @@
 		}
 
 		doSearch(searchInput).then((data) => {
+			console.log(data);
+
 			results = data;
 		});
 	});
