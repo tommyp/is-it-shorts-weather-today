@@ -47,6 +47,7 @@
 	},
 	"dependencies": {
 		"@sentry/sveltekit": "^9.47.1",
+		"posthog-js": "^1.344.0",
 		"runed": "^0.31.1"
 	}
 }
