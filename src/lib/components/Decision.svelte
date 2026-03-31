@@ -1,24 +1,42 @@
 <script lang="ts">
 	import { celsiusToFahrenheit } from '$lib/utils';
-	import { isItShortsWeatherToday } from '$lib/weather';
-	const { forecast, settings, error } = $props();
-	let decision: undefined | 'yes' | 'no' = $state();
-	let condition = $derived(forecast.weather[0].main);
+	import { isItShortsWeather } from '$lib/weather';
+	import { findShortsTime } from '$lib/forecast';
+	import type { WeatherResponse } from '$lib/types';
+
+	const { data, settings, error }: { data: WeatherResponse | null; settings: { unit: string; trigger: number }; error?: string } = $props();
+
+	let condition = $derived(data?.current.weather[0].main ?? '');
 	let temp = $derived(() => {
+		if (!data) return 0;
 		if (settings.unit === 'celsius') {
-			return Math.round(forecast.main.temp);
+			return Math.round(data.current.temp);
 		} else {
-			return celsiusToFahrenheit(forecast.main.temp);
+			return celsiusToFahrenheit(data.current.temp);
 		}
 	});
 
-	$effect(() => {
-		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
-			decision = 'yes';
-		} else {
-			decision = 'no';
-		}
-	});
+	let isShorts = $derived(
+		data
+			? isItShortsWeather(data.current.temp, data.tempMax, data.current.weather[0].id, settings.trigger)
+			: false
+	);
+
+	let shortsAt = $derived(
+		data && !isShorts
+			? findShortsTime(data.hourly, settings.trigger, Math.floor(Date.now() / 1000), data.timezoneOffset)
+			: null
+	);
+
+	const formatTime = (dt: number): string => {
+		if (!data) return '';
+		const localMs = (dt + data.timezoneOffset) * 1000;
+		const d = new Date(localMs);
+		let hours = d.getUTCHours();
+		const ampm = hours >= 12 ? 'pm' : 'am';
+		hours = hours % 12 || 12;
+		return `${hours}${ampm}`;
+	};
 </script>
 
 {#if error}
@@ -27,8 +45,10 @@
 	</div>
 {:else}
 	<div>
-		<h1>{decision}</h1>
-
+		<h1>{isShorts ? 'yes' : 'no'}</h1>
+		{#if !isShorts && shortsAt !== null}
+			<p>maybe at {formatTime(shortsAt)}</p>
+		{/if}
 		<p>{temp()}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
 		<p>{condition}</p>
 	</div>

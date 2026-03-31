@@ -1,8 +1,3 @@
-interface Coord {
-	lon: number;
-	lat: number;
-}
-
 interface Weather {
 	id: number;
 	main: string;
@@ -10,46 +5,36 @@ interface Weather {
 	icon: string;
 }
 
-interface Main {
-	temp: number;
-	feels_like: number;
-	temp_min: number;
-	temp_max: number;
-	pressure: number;
-	humidity: number;
-	sea_level: number;
-	grnd_level: number;
-}
-
-interface Wind {
-	speed: number;
-	deg: number;
-}
-
-interface Clouds {
-	all: number;
-}
-
-interface Sys {
-	type: number;
-	id: number;
-	country: string;
+export interface OnecallCurrent {
+	dt: number;
 	sunrise: number;
 	sunset: number;
+	temp: number;
+	feels_like: number;
+	pressure: number;
+	humidity: number;
+	visibility: number;
+	wind_speed: number;
+	wind_deg: number;
+	weather: Weather[];
+	clouds: number;
 }
 
-export interface Forecast {
-	coord: Coord;
-	weather: Weather[];
-	base: string;
-	main: Main;
-	visibility: number;
-	wind: Wind;
-	clouds: Clouds;
+export interface OnecallHourly {
 	dt: number;
-	sys: Sys;
-	timezone: number;
-	id: number;
+	temp: number;
+	feels_like: number;
+	pressure: number;
+	humidity: number;
+	weather: Weather[];
+	clouds: number;
+	pop: number;
+}
+
+export interface WeatherResponse {
+	current: OnecallCurrent;
+	hourly: OnecallHourly[];
 	name: string;
-	cod: number;
+	tempMax: number;
+	timezoneOffset: number;
 }
