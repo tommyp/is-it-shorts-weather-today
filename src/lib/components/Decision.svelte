@@ -4,7 +4,16 @@
 	import { findShortsTime } from '$lib/forecast';
 	import type { WeatherResponse } from '$lib/types';
 
-	const { data, settings, error }: { data: WeatherResponse | null; settings: { unit: string; trigger: number }; error?: string } = $props();
+	interface Props {
+		data: WeatherResponse | null;
+		settings: {
+			unit: string;
+			trigger: number;
+		};
+		error?: string;
+	}
+
+	const { data, settings, error }: Props = $props();
 
 	let condition = $derived(data?.current.weather[0].main ?? '');
 	let temp = $derived(() => {
@@ -18,13 +27,23 @@
 
 	let isShorts = $derived(
 		data
-			? isItShortsWeather(data.current.temp, data.tempMax, data.current.weather[0].id, settings.trigger)
+			? isItShortsWeather(
+					data.current.temp,
+					data.tempMax,
+					data.current.weather[0].id,
+					settings.trigger
+				)
 			: false
 	);
 
 	let shortsAt = $derived(
 		data && !isShorts
-			? findShortsTime(data.hourly, settings.trigger, Math.floor(Date.now() / 1000), data.timezoneOffset)
+			? findShortsTime(
+					data.hourly,
+					settings.trigger,
+					Math.floor(Date.now() / 1000),
+					data.timezoneOffset
+				)
 			: null
 	);
 
