@@ -16,20 +16,11 @@
 	const { data, settings, error }: Props = $props();
 
 	let condition = $derived(data?.current.weather[0].main ?? '');
-	let temp = $derived(() => {
-		if (!data) return 0;
-		if (settings.unit === 'celsius') {
-			return Math.round(data.current.temp);
-		} else {
-			return celsiusToFahrenheit(data.current.temp);
-		}
-	});
-
 	let isShorts = $derived(
 		data
 			? isItShortsWeather(
 					data.current.temp,
-					data.tempMax,
+					data.current.temp,
 					data.current.weather[0].id,
 					settings.trigger
 				)
@@ -46,6 +37,15 @@
 				)
 			: null
 	);
+
+	let shortsAtEntry = $derived(
+		shortsAt !== null ? data?.hourly.find((h) => h.dt === shortsAt) : undefined
+	);
+
+	let unit = $derived(settings.unit === 'celsius' ? 'C' : 'F');
+
+	const formatTemp = (celsius: number) =>
+		settings.unit === 'celsius' ? Math.round(celsius) : celsiusToFahrenheit(celsius);
 
 	const formatTime = (dt: number): string => {
 		if (!data) return '';
@@ -65,11 +65,13 @@
 {:else}
 	<div>
 		<h1>{isShorts ? 'yes' : 'no'}</h1>
-		{#if !isShorts && shortsAt !== null}
-			<p>maybe at {formatTime(shortsAt)}</p>
+		{#if shortsAt !== null && shortsAtEntry}
+			<p>
+				{formatTemp(data!.current.temp)}°{unit} / {condition} now, but {formatTemp(shortsAtEntry.temp)}°{unit} / {shortsAtEntry.weather[0].main} from {formatTime(shortsAt)}
+			</p>
+		{:else}
+			<p>{formatTemp(data?.current.temp ?? 0)}°{unit} / {condition}</p>
 		{/if}
-		<p>{temp()}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
-		<p>{condition}</p>
 	</div>
 {/if}
 
