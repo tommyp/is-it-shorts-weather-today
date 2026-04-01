@@ -29,25 +29,32 @@ export const POST: RequestHandler = async ({ request }) => {
 				limit: '1',
 				appid: OPENWEATHER_API_KEY
 			});
+
 			const geoRes = await fetch(`${GEO_API_URL}/direct?${params}`);
 			if (!geoRes.ok) throw error(geoRes.status, 'Geocoding failed');
+
 			const geoData = await geoRes.json();
 			if (!geoData.length) throw error(404, 'Location not found');
+
 			lat = geoData[0].lat;
 			lon = geoData[0].lon;
 			name = geoData[0].name;
 		} else {
 			lat = body.lat!;
 			lon = body.lon!;
+
 			const params = new URLSearchParams({
 				lat: lat.toString(),
 				lon: lon.toString(),
 				limit: '1',
 				appid: OPENWEATHER_API_KEY
 			});
+
 			const revRes = await fetch(`${GEO_API_URL}/reverse?${params}`);
+
 			if (revRes.ok) {
 				const revData = await revRes.json();
+
 				name = revData.length ? revData[0].name : `${lat}, ${lon}`;
 			} else {
 				name = `${lat}, ${lon}`;
@@ -63,6 +70,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		});
 
 		const weatherRes = await fetch(`${ONECALL_API_URL}?${onecallParams}`);
+
 		if (!weatherRes.ok) {
 			const errorData = await weatherRes.json().catch(() => null);
 			throw error(weatherRes.status, errorData?.message || 'Failed to fetch weather data');
