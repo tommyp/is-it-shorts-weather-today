@@ -38,7 +38,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 			lat = geoData[0].lat;
 			lon = geoData[0].lon;
-			name = geoData[0].name;
+			name = body.location.trim().replace(/\s+/g, ' ');
 		} else {
 			lat = body.lat!;
 			lon = body.lon!;
