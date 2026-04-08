@@ -1,24 +1,61 @@
 <script lang="ts">
 	import { celsiusToFahrenheit } from '$lib/utils';
-	import { isItShortsWeatherToday } from '$lib/weather';
-	const { forecast, settings, error } = $props();
-	let decision: undefined | 'yes' | 'no' = $state();
-	let condition = $derived(forecast.weather[0].main);
-	let temp = $derived(() => {
-		if (settings.unit === 'celsius') {
-			return Math.round(forecast.main.temp);
-		} else {
-			return celsiusToFahrenheit(forecast.main.temp);
-		}
-	});
+	import { isItShortsWeather } from '$lib/weather';
+	import { findShortsTime } from '$lib/forecast';
+	import type { WeatherResponse } from '$lib/types';
 
-	$effect(() => {
-		if (forecast && isItShortsWeatherToday(forecast, settings.trigger)) {
-			decision = 'yes';
-		} else {
-			decision = 'no';
-		}
-	});
+	interface Props {
+		data: WeatherResponse | null;
+		settings: {
+			unit: string;
+			trigger: number;
+		};
+		error?: string;
+	}
+
+	const { data, settings, error }: Props = $props();
+
+	let condition = $derived(data?.current.weather[0].main ?? '');
+	let isShorts = $derived(
+		data
+			? isItShortsWeather(
+					data.current.temp,
+					data.current.temp,
+					data.current.weather[0].id,
+					settings.trigger
+				)
+			: false
+	);
+
+	let shortsAt = $derived(
+		data && !isShorts
+			? findShortsTime(
+					data.hourly,
+					settings.trigger,
+					Math.floor(Date.now() / 1000),
+					data.timezoneOffset
+				)
+			: null
+	);
+
+	let shortsAtEntry = $derived(
+		shortsAt !== null ? data?.hourly.find((h) => h.dt === shortsAt) : undefined
+	);
+
+	let unit = $derived(settings.unit === 'celsius' ? 'C' : 'F');
+
+	const formatTemp = (celsius: number) =>
+		settings.unit === 'celsius' ? Math.round(celsius) : celsiusToFahrenheit(celsius);
+
+	const formatTime = (dt: number): string => {
+		if (!data) return '';
+		const localMs = (dt + data.timezoneOffset) * 1000;
+		const d = new Date(localMs);
+		let hours = d.getUTCHours();
+		const ampm = hours >= 12 ? 'pm' : 'am';
+		hours = hours % 12 || 12;
+		return `${hours}${ampm}`;
+	};
 </script>
 
 {#if error}
@@ -27,10 +64,14 @@
 	</div>
 {:else}
 	<div>
-		<h1>{decision}</h1>
-
-		<p>{temp()}°{settings.unit === 'celsius' ? 'C' : 'F'}</p>
-		<p>{condition}</p>
+		<h1>{isShorts ? 'yes' : 'no'}</h1>
+		{#if shortsAt !== null && shortsAtEntry}
+			<p>
+				{formatTemp(data!.current.temp)}°{unit} / {condition} now, but {formatTemp(shortsAtEntry.temp)}°{unit} / {shortsAtEntry.weather[0].main} from {formatTime(shortsAt)}
+			</p>
+		{:else}
+			<p>{formatTemp(data?.current.temp ?? 0)}°{unit} / {condition}</p>
+		{/if}
 	</div>
 {/if}
 

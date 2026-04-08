@@ -6,18 +6,20 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import SettingsModal from '$lib/components/SettingsModal.svelte';
 	import Background from '$lib/components/Background.svelte';
-	import type { Forecast } from '$lib/types';
+	import type { WeatherResponse } from '$lib/types';
 	import Controls from '$lib/components/Controls.svelte';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
-	let weather: Forecast | null = $state(null);
+	let weatherData = $state<WeatherResponse | null>(null);
 	let isLoading = $state(false);
-	let error = $state();
+	let error = $state<string | undefined>();
 	let location: undefined | string = $state();
 
 	let showSettingsModal = $state(false);
 	let title = $derived(
-		weather ? `Is It Shorts Weather Today in ${weather['name']}?` : 'Is It Shorts Weather Today?'
+		weatherData?.name
+			? `Is It Shorts Weather Today in ${weatherData.name}?`
+			: 'Is It Shorts Weather Today?'
 	);
 
 	let settings = $state({
@@ -51,10 +53,14 @@
 		loadSettings();
 	});
 
-	const makeRequest = async (params: { lat?: number; lon?: number; location?: string }) => {
+	const makeRequest = async (params: {
+		lat?: number;
+		lon?: number;
+		location?: string;
+	}): Promise<WeatherResponse | undefined> => {
 		isLoading = true;
-		error = null;
-		const response = await fetch('/api/current', {
+		error = undefined;
+		const response = await fetch('/api/weather', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -65,7 +71,6 @@
 		isLoading = false;
 
 		if (!response.ok) {
-			console.log(response);
 			if (response.status === 404) {
 				error = "That's not a place";
 			} else {
@@ -74,14 +79,17 @@
 			return;
 		}
 
-		return response.json();
+		return response.json() as Promise<WeatherResponse>;
 	};
 
 	$effect(() => {
 		if (requestParams) {
 			makeRequest(requestParams).then((data) => {
-				location = data.name;
-				weather = data;
+				console.log(data);
+				if (data) {
+					location = data.name;
+					weatherData = data;
+				}
 			});
 		}
 	});
@@ -104,15 +112,15 @@
 <Background />
 <main>
 	<div>
-		<Header location={weather?.name} />
+		<Header location={weatherData?.name} />
 	</div>
 	{#if isLoading}
 		<div class="loading">
 			<p>Loading...</p>
 		</div>
 	{/if}
-	{#if !isLoading && (weather || error)}
-		<Decision forecast={weather} {error} {settings} />
+	{#if !isLoading && (weatherData || error)}
+		<Decision data={weatherData} {error} {settings} />
 	{/if}
 	<div>
 		<Controls bind:showSettingsModal bind:requestParams bind:location />
