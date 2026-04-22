@@ -16,7 +16,7 @@
 	const { data, settings, error }: Props = $props();
 
 	let condition = $derived(data?.current.weather[0].main ?? '');
-	let isShorts = $derived(
+	let isCurrentShorts = $derived(
 		data
 			? isItShortsWeather(
 					data.current.temp,
@@ -28,7 +28,7 @@
 	);
 
 	let shortsAt = $derived(
-		data && !isShorts
+		data && !isCurrentShorts
 			? findShortsTime(
 					data.hourly,
 					settings.trigger,
@@ -37,6 +37,8 @@
 				)
 			: null
 	);
+
+	let isShorts = $derived(isCurrentShorts || shortsAt !== null);
 
 	let shortsAtEntry = $derived(
 		shortsAt !== null ? data?.hourly.find((h) => h.dt === shortsAt) : undefined
@@ -67,7 +69,12 @@
 		<h1>{isShorts ? 'yes' : 'no'}</h1>
 		{#if shortsAt !== null && shortsAtEntry}
 			<p>
-				{formatTemp(data!.current.temp)}°{unit} / {condition} now, but {formatTemp(shortsAtEntry.temp)}°{unit} / {shortsAtEntry.weather[0].main} from {formatTime(shortsAt)}
+				{formatTemp(data!.current.temp)}°{unit} / {condition} now
+			</p>
+			<p>
+				{formatTemp(shortsAtEntry.temp)}°{unit} / {shortsAtEntry.weather[0].main} from {formatTime(
+					shortsAt
+				)}
 			</p>
 		{:else}
 			<p>{formatTemp(data?.current.temp ?? 0)}°{unit} / {condition}</p>
