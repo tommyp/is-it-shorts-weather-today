@@ -10,7 +10,12 @@ const conditions = {
 	haze: [711, 721, 731, 751, 761, 762]
 };
 
-const isItShortsWeather = (temp: number, tempMax: number, code: number, trigger: number): boolean => {
+const isItShortsWeather = (
+	temp: number,
+	tempMax: number,
+	code: number,
+	trigger: number
+): boolean => {
 	if (code === conditions.clear || conditions.clouds.includes(code)) {
 		return isWarmEnough(trigger, tempMax, temp);
 	}
