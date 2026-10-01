@@ -4,7 +4,6 @@
 	import { browser } from '$app/env';
 	import { useDebounce } from 'runed';
 	import SearchResults from './SearchResults.svelte';
-	import { renderName } from '#lib/utils.js';
 
 	type Props = {
 		requestParams: { lat?: number; lon?: number; location?: string } | undefined;
@@ -14,6 +13,7 @@
 
 	let {
 		requestParams = $bindable(),
+		// eslint-disable-next-line no-useless-assignment -- written from template, read by parent via bind:
 		showSettingsModal = $bindable(),
 		location = $bindable()
 	}: Props = $props();
@@ -127,12 +127,7 @@
 		}
 	};
 
-	let isLoading = $state();
-	let error = $state();
-
 	const doSearch = async (query: string) => {
-		isLoading = true;
-		error = null;
 		const response = await fetch('/api/search', {
 			method: 'POST',
 			headers: {
@@ -143,12 +138,7 @@
 
 		if (!response.ok) {
 			console.log(response);
-			if (response.status === 404) {
-				error = "That's not a place";
-			} else {
-				error = 'Failed to fetch weather';
-			}
-			return;
+			return [];
 		}
 
 		return await response.json();
