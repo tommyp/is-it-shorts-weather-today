@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: true
+  '@sentry/cli': false
+  core-js: false
+  protobufjs: false
+  sharp: false
+  workerd: false
