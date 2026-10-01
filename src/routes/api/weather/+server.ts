@@ -1,6 +1,6 @@
 import { OPENWEATHER_API_KEY } from '$app/env/private';
 import type { RequestHandler } from '@sveltejs/kit';
-import { error, isHttpError, json } from '@sveltejs/kit';
+import { error, isHttpError } from '@sveltejs/kit';
 
 interface WeatherRequest {
 	location?: string;
@@ -78,7 +78,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const data = await weatherRes.json();
 
-		return json({
+		return Response.json({
 			current: data.current,
 			hourly: data.hourly,
 			name,
@@ -88,7 +88,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	} catch (err) {
 		if (isHttpError(err)) {
 			if (err.status === 404) {
-				return error(404, { message: 'Location not found' });
+				return error(404, 'Location not found');
 			}
 			throw err;
 		}
