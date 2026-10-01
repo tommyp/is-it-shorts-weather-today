@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { renderName } from '$lib/utils';
+	import { renderName } from '#lib/utils.js';
 
 	type Props = {
 		handleSearchSelection: (location: string) => void;

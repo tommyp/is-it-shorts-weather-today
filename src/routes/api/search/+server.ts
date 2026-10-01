@@ -1,4 +1,4 @@
-import { OPENWEATHER_API_KEY } from '$env/static/private';
+import { OPENWEATHER_API_KEY } from '$app/env/private';
 import type { RequestHandler } from '@sveltejs/kit';
 import { error, isHttpError, json } from '@sveltejs/kit';
 

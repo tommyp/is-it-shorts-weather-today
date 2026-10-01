@@ -1,5 +1,5 @@
 <script>
-	import Background from '$lib/components/Background.svelte';
+	import Background from '#lib/components/Background.svelte';
 </script>
 
 <Background />

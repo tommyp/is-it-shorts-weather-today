@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { celsiusToFahrenheit, fahrenheitToCelsius } from '$lib/utils';
+	import { celsiusToFahrenheit, fahrenheitToCelsius } from '#lib/utils.js';
 
 	const { onSubmit } = $props();
 

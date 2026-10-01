@@ -5,3 +5,6 @@ allowBuilds:
   protobufjs: false
   sharp: false
   workerd: false
+minimumReleaseAgeExclude:
+  - '@sveltejs/adapter-cloudflare@8.0.0'
+  - '@sveltejs/kit@3.0.0'
