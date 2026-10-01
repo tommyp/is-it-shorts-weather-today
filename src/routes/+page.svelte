@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import Decision from '$lib/components/Decision.svelte';
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
-	import SettingsModal from '$lib/components/SettingsModal.svelte';
-	import Background from '$lib/components/Background.svelte';
-	import type { WeatherResponse } from '$lib/types';
-	import Controls from '$lib/components/Controls.svelte';
+	import Decision from '#lib/components/Decision.svelte';
+	import Header from '#lib/components/Header.svelte';
+	import Footer from '#lib/components/Footer.svelte';
+	import SettingsModal from '#lib/components/SettingsModal.svelte';
+	import Background from '#lib/components/Background.svelte';
+	import type { WeatherResponse } from '#lib/types.js';
+	import Controls from '#lib/components/Controls.svelte';
 
 	let requestParams: undefined | { lat?: number; lon?: number; location?: string } = $state();
 	let weatherData = $state<WeatherResponse | null>(null);

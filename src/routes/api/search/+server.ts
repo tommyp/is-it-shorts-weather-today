@@ -1,6 +1,6 @@
-import { OPENWEATHER_API_KEY } from '$env/static/private';
+import { OPENWEATHER_API_KEY } from '$app/env/private';
 import type { RequestHandler } from '@sveltejs/kit';
-import { error, isHttpError, json } from '@sveltejs/kit';
+import { error, isHttpError } from '@sveltejs/kit';
 
 interface SearchRequest {
 	query: string;
@@ -29,7 +29,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 
 		const data = await response.json();
-		return json(data);
+		return Response.json(data);
 	} catch (error) {
 		if (isHttpError(error)) {
 			throw error;

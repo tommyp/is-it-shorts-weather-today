@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { celsiusToFahrenheit } from '$lib/utils';
-	import { isItShortsWeather } from '$lib/weather';
-	import { findShortsTime } from '$lib/forecast';
-	import type { WeatherResponse } from '$lib/types';
+	import { celsiusToFahrenheit } from '#lib/utils.js';
+	import { isItShortsWeather } from '#lib/weather.js';
+	import { findShortsTime } from '#lib/forecast.js';
+	import type { WeatherResponse } from '#lib/types.js';
 
 	interface Props {
 		data: WeatherResponse | null;

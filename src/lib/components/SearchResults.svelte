@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { renderName } from '$lib/utils';
+	import { renderName } from '#lib/utils.js';
 
 	type Props = {
 		handleSearchSelection: (location: string) => void;
-		results: { name: string; country: string; state?: string }[];
+		results: { name: string; country: string; state?: string; lat: number; lon: number }[];
 		selectedSearchResultIndex?: number;
 	};
 
@@ -13,7 +13,7 @@
 <div class="search-container">
 	{#if results.length > 0}
 		<ul>
-			{#each results as result, index}
+			{#each results as result, index (`${result.lat},${result.lon}`)}
 				{@const renderedName = renderName(result)}
 				<li>
 					<button
