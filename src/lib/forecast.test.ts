@@ -20,10 +20,7 @@ const timezoneOffset = 3600;
 
 describe('findShortsTime', () => {
 	it('returns null when no entries are warm enough today', () => {
-		const hourly = [
-			makeHourly(nowUtc + 3600, 10, 800),
-			makeHourly(nowUtc + 7200, 12, 800)
-		];
+		const hourly = [makeHourly(nowUtc + 3600, 10, 800), makeHourly(nowUtc + 7200, 12, 800)];
 		expect(findShortsTime(hourly, 18, nowUtc, timezoneOffset)).toBeNull();
 	});
 
